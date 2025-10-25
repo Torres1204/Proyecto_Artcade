@@ -1,0 +1,84 @@
+# Blender 4.5.3 LTS MTL File: 'proyecto.blend'
+# www.blender.org
+
+newmtl Chair_and_table
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns C:/Chair and table_Roughness.png
+map_refl C:/Chair and table_Metallic.png
+map_Bump -bm 1.000000 C:/Chair and table_Normal.png
+
+newmtl Material.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaBaseFuera.jpg
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/marmolTexture.jpg
+
+newmtl Material.009
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaBaseFuera.jpg
+
+newmtl interior
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaDentro.jpg
+
+newmtl interior.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaDentro.jpg
+
+newmtl receptionTable
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/receptionTable.jpg
+
+newmtl receptionTableUnder
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/marmolTexture.jpg
