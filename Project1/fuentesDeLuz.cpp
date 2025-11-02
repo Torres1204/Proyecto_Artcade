@@ -29,6 +29,7 @@
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
 void DoMovement();
+void Animation();
 
 // Window dimensions
 const GLuint WIDTH = 1000, HEIGHT = 800;
@@ -43,6 +44,8 @@ bool firstMouse = true;
 // Light attributes
 glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 bool active;
+
+
 
 
 glm::vec3 lightPivots[] = {
@@ -136,6 +139,43 @@ glm::vec3 Light1 = glm::vec3(0);
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
+
+//AmimacionMario
+float headMario = 0.0f;
+float bodyMario = 0.0f;
+float armRightMario = 0.0f;
+float armLeftMario = 0.0f;
+float legRightMario = 0.0f;
+float legLeftMario = 0.0f;
+int marioState = 0;
+float marioRotation = 0.0f;
+float marioHeight = 0.0f;
+float marioArmAngle = 50.0f;
+float armMarioAngle = 50.0f;
+float armMarioAngleX = 0.0f;
+float armMarioAngleY = 0.0f;
+float armMarioPos = 1.0f;
+float legMarioAngle = 0.0f;
+float vueltasMario = 0.0f;
+
+//animacion shine
+float shineRotateAngle = 10.0f;
+bool shineRotate = true;
+bool shineUp = false;
+float shineOrbitAngle = 0.0f;      
+bool shineOrbitActive = false;    
+float shineSpinAngle = 1.0f;       
+
+
+bool AnimMario = false;
+glm::vec3 marioPos(-152.0f, -6.42124f, 387.647f);
+//glm::vec3 marioPos(0.0f, 0.0f, 0.0f);
+glm::mat4 modelTemp = glm::mat4(1.0f); //Temp
+
+
+
+
+
 int main()
 {
 	// Init GLFW
@@ -196,6 +236,13 @@ int main()
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
 	Model Proyecto((char*)"models/proyecto.obj");
+	Model Shine((char*)"models/monedaMario.obj");
+	Model MarioBody((char*)"models/body_mario.obj");
+	Model HeadMario((char*)"models/head_mario.obj");
+	Model RightLeg((char*)"models/R_leg_mario.obj");
+	Model LeftLeg((char*)"models/L_leg_mario.obj");
+	Model RightArm((char*)"models/R_arm_mario.obj");
+	Model LeftArm((char*)"models/L_arm_mario.obj");
 
 
 
@@ -259,6 +306,7 @@ int main()
 		// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 		glfwPollEvents();
 		DoMovement();
+		Animation();
 
 		// Clear the colorbuffer
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -371,10 +419,85 @@ int main()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+
+
+		//esqueleto del proyecto
 	    Proyecto.Draw(lightingShader);
+
+
+		//sol
+		if (shineOrbitActive) {
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(marioPos.x, marioPos.y, marioPos.z)); 
+			model = glm::rotate(model, glm::radians(shineOrbitAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(0.0f, 2.0f, -15.0f));
+			model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		}
+		else {
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(marioPos.x, marioPos.y, marioPos.z - 15.0f));
+			model = glm::rotate(model, glm::radians(shineSpinAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		}
+
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Shine.Draw(lightingShader);
+
+
+
+		// Mario
+		glm::mat4 modelMario = glm::mat4(1.0f);
+		modelMario = glm::translate(modelMario, marioPos);
+		modelMario = glm::rotate(modelMario, glm::radians(marioRotation), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		// Guarda esta base para las partes del cuerpo
+		glm::mat4 modelBase = modelMario;
+
+		// Body
+		model = modelBase;
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		MarioBody.Draw(lightingShader);
+
+		// Head
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		HeadMario.Draw(lightingShader);
+
+		// Right Arm
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(1.2f, armMarioPos, 0.0f));
+		model = glm::rotate(model, glm::radians(-armMarioAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RightArm.Draw(lightingShader);
+
+		// Left Arm
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(-1.2f, armMarioPos, 0.0f));
+		model = glm::rotate(model, glm::radians(armMarioAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(armMarioAngleX), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(armMarioAngleY), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		LeftArm.Draw(lightingShader);
+
+		// Right Leg
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f)); 
+		model = glm::rotate(model, glm::radians(legMarioAngle), glm::vec3(1.0f, 0.0, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RightLeg.Draw(lightingShader);
+
+		//Left Leg
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(legMarioAngle), glm::vec3(1.0f, 0.0, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		LeftLeg.Draw(lightingShader);
+
+
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
-	
+
 
 		// Also draw the lamp object, again binding the appropriate shader
 		lampShader.Use();
@@ -479,7 +602,7 @@ void DoMovement()
 }
 
 // Is called whenever a key is pressed/released via GLFW
-void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
 	{
@@ -510,6 +633,13 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 			Light1 = glm::vec3(0);//Cuado es solo un valor en los 3 vectores pueden dejar solo una componente
 		}
 	}
+
+	if (keys[GLFW_KEY_N])
+	{
+		AnimMario = !AnimMario;
+
+
+	}
 }
 
 void MouseCallback(GLFWwindow *window, double xPos, double yPos)
@@ -528,4 +658,67 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 	lastY = yPos;
 
 	camera.ProcessMouseMovement(xOffset, yOffset);
+}
+
+
+
+void Animation()
+{
+	if (!AnimMario)
+		return;
+
+	// Actualiza el giro propio (siempre girando cuando shineRotate está true)
+	// Uso deltaTime para velocidad independientemente del frame rate.
+	if (shineRotate) {
+		shineSpinAngle += 45.0f;
+	}
+	
+	
+	switch (marioState)
+	{
+	case 0:
+		if (marioHeight < 8.0f) {
+			marioHeight += 0.05f;
+			marioPos.y += 0.05f;
+			armMarioAngle -= 0.38f;
+			armMarioPos -= 0.01f;
+			legMarioAngle += 0.05f;
+		}
+		else {
+			marioState = 1;
+		}
+		break;
+	case 1:
+		if (armMarioAngleX<90.0f) {
+			armMarioAngleX += 10.0f;
+		}
+		else {
+			marioState = 2;
+		}
+		break;
+	case 2:
+		if (armMarioAngleY < 90.0f) {
+			armMarioAngleY += 10.0f;
+		}
+		else {
+			marioState = 3;
+		}
+		break;
+	case 3:
+		if (vueltasMario < 2.0f) {
+			marioRotation += 20.0f;
+			shineOrbitAngle += 20.0f;
+			if(marioRotation >= 360.0f) {
+				vueltasMario += 1.0f;
+				marioRotation = 0.0f;
+			}
+		}
+		shineOrbitActive = true;
+		shineRotate = false;
+		break;
+		
+		break;
+	default:
+		break;
+	}
 }
