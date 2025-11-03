@@ -29,9 +29,10 @@
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
 void DoMovement();
+void Animation();
 
 // Window dimensions
-const GLuint WIDTH = 800, HEIGHT = 600;
+const GLuint WIDTH = 1000, HEIGHT = 800;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
@@ -44,13 +45,54 @@ bool firstMouse = true;
 glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 bool active;
 
-// Positions of the point lights
-glm::vec3 pointLightPositions[] = {
-	glm::vec3(1.3f,-0.14f, -1.7f),
-	glm::vec3(-1.89f,0.0f, -0.6f),
-	glm::vec3(-1.89f,0.0f,  -1.78f),
-	glm::vec3(0.77, 2.4, -6.55)
+
+
+
+glm::vec3 lightPivots[] = {
+	glm::vec3(-211.63f, 13.0f, 79.0f),
+	glm::vec3(-101.54f,13.0f, 79.0f),
+
+
+	glm::vec3(-211.63f, 13.0f, 162.62f),
+	glm::vec3(-101.54f,13.0f, 162.62f),
+
+	glm::vec3(-211.63f, 13.0f, 180.69f),
+	glm::vec3(-101.54f,13.0f, 180.69f),
+
+	glm::vec3(-211.63f, 13.0f, 269.26f),
+	glm::vec3(-101.54f,13.0f, 269.26f),
+
+	glm::vec3(-211.63f, 13.0f, 283.63f),
+	glm::vec3(-101.54f,13.0f, 283.63f),
 };
+
+glm::vec3 lightPivotsroof[] = {
+	glm::vec3(-155.125f, 46.1014f, 79.0f),
+	glm::vec3(-155.125f, 46.1014f, 162.923f),
+	glm::vec3(-155.125f, 46.1014f, 180.69f),
+	glm::vec3(-155.125f, 46.1014f, 269.255f),
+	glm::vec3(-155.125f, 46.1014f, 283.631f),
+};
+
+std::vector<glm::vec3> pointLightPositions;
+
+
+
+// Colores Difusos a alternar (R, G, B)
+std::vector<glm::vec3> diffuseColors = {
+
+	glm::vec3(0.0f, 0.3f, 1.0f),
+	glm::vec3(1.0f, 1.0f, 0.0f),
+	glm::vec3(0.0f, 0.3f, 1.0f),
+	glm::vec3(1.0f, 1.0f, 0.0f),
+	glm::vec3(0.0f, 0.3f, 1.0f),
+	
+
+};
+
+// 18 luces por pivote, como lo especificaste
+const int LIGHTS_PER_PIVOT = 18;
+
 
 float vertices[] = {
 	 -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -104,6 +146,43 @@ glm::vec3 Light1 = glm::vec3(0);
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
+
+
+//AmimacionMario
+float headMario = 0.0f;
+float bodyMario = 0.0f;
+float armRightMario = 0.0f;
+float armLeftMario = 0.0f;
+float legRightMario = 0.0f;
+float legLeftMario = 0.0f;
+int marioState = 0;
+float marioRotation = 0.0f;
+float marioHeight = 0.0f;
+float marioArmAngle = 50.0f;
+float armMarioAngle = 50.0f;
+float armMarioAngleX = 0.0f;
+float armMarioAngleY = 0.0f;
+float armMarioPos = 1.0f;
+float legMarioAngle = 0.0f;
+float vueltasMario = 0.0f;
+
+//animacion shine
+float shineRotateAngle = 10.0f;
+bool shineRotate = true;
+bool shineUp = false;
+float shineOrbitAngle = 0.0f;      
+bool shineOrbitActive = false;    
+float shineSpinAngle = 1.0f;       
+
+
+bool AnimMario = false;
+glm::vec3 marioPos(-152.0f, -6.42124f, 387.647f);
+//glm::vec3 marioPos(0.0f, 0.0f, 0.0f);
+glm::mat4 modelTemp = glm::mat4(1.0f); //Temp
+
+
+
+
 
 int main()
 {
@@ -159,10 +238,19 @@ int main()
 
 
 
+
+
 	Shader lightingShader("Shader/lighting.vs", "Shader/lighting.frag");
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
 	Model Proyecto((char*)"models/proyecto.obj");
+	Model Shine((char*)"models/monedaMario.obj");
+	Model MarioBody((char*)"models/body_mario.obj");
+	Model HeadMario((char*)"models/head_mario.obj");
+	Model RightLeg((char*)"models/R_leg_mario.obj");
+	Model LeftLeg((char*)"models/L_leg_mario.obj");
+	Model RightArm((char*)"models/R_arm_mario.obj");
+	Model LeftArm((char*)"models/L_arm_mario.obj");
 
 
 
@@ -187,6 +275,65 @@ int main()
 
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 300.0f);
 
+
+	const int NUM_PIVOTS = sizeof(lightPivots) / sizeof(lightPivots[0]);
+
+	float yOffsets[] = {
+	 0.0f, 3.0f, 6.0f, 9.0f, 12.0f, 16.0f, 23.0f, 26.0f, 29.0f, 32.0f, 35.0f, 38.0f, 41.0f, -3.0f, -6.0f, -9.0f, -12.0f, -15.0f
+	};
+	const int NUM_OFFSETS = sizeof(yOffsets) / sizeof(yOffsets[0]);
+
+	// Generar y almacenar todas las posiciones de luz en el vector global
+	for (int i = 0; i < NUM_PIVOTS; ++i) {
+		glm::vec3 pivot = lightPivots[i];
+		// Iterar sobre los desplazamientos en Y
+		for (int j = 0; j < NUM_OFFSETS; ++j) {
+			glm::vec3 finalPosition = glm::vec3(
+				pivot.x,
+				yOffsets[j],
+				pivot.z
+			);
+
+			// Almacena la posición final en el vector global
+			pointLightPositions.push_back(finalPosition);
+		}
+	}
+
+
+
+	//luces en el techo
+
+	float zOffsetsRoof[] = {
+		 0.0f, 5.0f, 10.0f, 20.0f, 25.0f, 30.0f, 35.0f, 40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 65.0f, -5.0f, -10.0f, -15.0f, -20.0f, -25.0f,
+		  -30.0f, -35.0f, -40.0f, -45.0f, -50.0f, -55.0f, -60.0f, -65.0f
+	};
+	const int NUM_Z_OFFSETS = sizeof(zOffsetsRoof) / sizeof(zOffsetsRoof[0]);
+	std::vector<glm::vec3> pointLightpivotsRoof;
+	glm::vec3 roofLightColor = glm::vec3(1.0f, 0.6f, 1.0f); 
+
+
+	const int NUM_PIVOTS_ROOF = sizeof(lightPivotsroof) / sizeof(lightPivotsroof[0]);
+	for (int i = 0; i < NUM_PIVOTS_ROOF; ++i) {
+		glm::vec3 pivot = lightPivotsroof[i];
+		for (int j = 0; j < NUM_Z_OFFSETS; ++j) {
+			glm::vec3 finalPosition = glm::vec3(
+				pivot.x + zOffsetsRoof[j],
+				pivot.y,           
+				pivot.z 
+			);
+			pointLightpivotsRoof.push_back(finalPosition);
+		}
+	}
+
+
+	for (int i = 0; i < pointLightpivotsRoof.size(); ++i) {
+		pointLightPositions.push_back(pointLightpivotsRoof[i]);
+	}
+
+
+	// Calcula numLights a partir del vector después de que ha sido llenado
+	const int numLights = pointLightPositions.size();
+
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -199,6 +346,7 @@ int main()
 		// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 		glfwPollEvents();
 		DoMovement();
+		Animation();
 
 		// Clear the colorbuffer
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -229,53 +377,56 @@ int main()
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.8f, 0.8f, 0.8f);
 
 
-		// Point light 1
-		glm::vec3 lightColor;
-		lightColor.x = abs(sin(glfwGetTime() * Light1.x));
-		lightColor.y = abs(sin(glfwGetTime() * Light1.y));
-		lightColor.z = sin(glfwGetTime() * Light1.z);
+		const int LIGHTS_PER_PIVOT = 18; // Definido aquí para mayor claridad o como constante global
+		int numColors = diffuseColors.size();
+		glm::vec3 currentDiffuseColor;
 
+		for (int i = 0; i < numLights; ++i) {
+			std::string base = "pointLights[" + std::to_string(i) + "]";
 
-		// Point light 1 - luz de la vela dentro de la calabaza
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), 0.1f, 0.1f, 0.1f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), 1.0f, 0.5f, 0.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 2.0f, 0.5f, 0.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].constant"), 1.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].linear"), 0.1f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"), 0.032f);
+			// 1. Calcular el índice del pivote al que pertenece esta luz
+			// Ej: Luz 0-17 -> Pivote 0; Luz 18-35 -> Pivote 1; etc.
+			int pivotIndex = i / LIGHTS_PER_PIVOT;
 
+			// 2. Calcular el índice del PAR de pivotes
+			// Ej: Pivotes 0 y 1 -> Par 0; Pivotes 2 y 3 -> Par 1; etc.
+			int pairIndex = pivotIndex / 2;
 
+			// 3. Seleccionar el color usando el índice del par y el módulo de la cantidad de colores
+			if (i >= 180) {
+				currentDiffuseColor = glm::vec3(1.0f, 0.0f, 1.0f);
+			}
+			else {
+				currentDiffuseColor = diffuseColors[pairIndex % numColors];
+			}
+			
 
-		// Point light 2 luz de jardin 1
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].position"), pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].ambient"), 0.1f, 0.1f, 0.1f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 0.9f, 0.7f, 0.4);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 1.0f, 1.0f, 1.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].constant"), 1.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].linear"), 0.7f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic"), 0.1f);
+			// 4. Enviar Posición
+			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".position").c_str()),
+				pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z);
 
-		// Point light 3 luz de jardin 2
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].position"), pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].ambient"), 0.1f, 0.1f, 0.1f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 0.9f, 0.7f, 0.4);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].specular"), 1.0f, 1.0f, 1.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].constant"), 1.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].linear"), 0.7f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].quadratic"), 0.1f);
+			// 5. Enviar Colores (Difuso es el que cambia)
 
-		// Point light 4
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].position"), pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].ambient"), 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"), 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].specular"), 0.0f, 0.0f, 0.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].constant"), 1.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].linear"), 0.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].quadratic"), 0.0f);
+			// Color Ambiental: Tenue, basado en el difuso para mantener el tono
+			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".ambient").c_str()),
+				currentDiffuseColor.x * 0.05f, currentDiffuseColor.y * 0.05f, currentDiffuseColor.z * 0.05f);
+
+			// Color Difuso: El color principal del par de pivotes
+			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".diffuse").c_str()),
+				currentDiffuseColor.x, currentDiffuseColor.y, currentDiffuseColor.z);
+
+			// Color Especular: Reflejo suave (opcionalmente puedes usar el color difuso también)
+			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".specular").c_str()),
+				currentDiffuseColor.x * 0.5f, currentDiffuseColor.y * 0.5f, currentDiffuseColor.z * 0.5f);
+
+			// 6. Enviar Atenuación (Se mantiene constante)
+			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".constant").c_str()), 1.0f);
+			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".linear").c_str()), 0.09f);
+			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".quadratic").c_str()), 0.032f);
+		}
 
 		// SpotLight
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.position"), pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.position"), pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.direction"), 0.0f, -1.0f, 0.0f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.ambient"), 0.4f, 0.4f, 0.4f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.diffuse"), 0.8f, 0.8f, 0.8f);
@@ -315,10 +466,85 @@ int main()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+
+
+		//esqueleto del proyecto
 	    Proyecto.Draw(lightingShader);
+
+
+		//sol
+		if (shineOrbitActive) {
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(marioPos.x, marioPos.y, marioPos.z)); 
+			model = glm::rotate(model, glm::radians(shineOrbitAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(0.0f, 2.0f, -15.0f));
+			model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		}
+		else {
+			model = glm::mat4(1);
+			model = glm::translate(model, glm::vec3(marioPos.x, marioPos.y, marioPos.z - 15.0f));
+			model = glm::rotate(model, glm::radians(shineSpinAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		}
+
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Shine.Draw(lightingShader);
+
+
+
+		// Mario
+		glm::mat4 modelMario = glm::mat4(1.0f);
+		modelMario = glm::translate(modelMario, marioPos);
+		modelMario = glm::rotate(modelMario, glm::radians(marioRotation), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		// Guarda esta base para las partes del cuerpo
+		glm::mat4 modelBase = modelMario;
+
+		// Body
+		model = modelBase;
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		MarioBody.Draw(lightingShader);
+
+		// Head
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		HeadMario.Draw(lightingShader);
+
+		// Right Arm
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(1.2f, armMarioPos, 0.0f));
+		model = glm::rotate(model, glm::radians(-armMarioAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RightArm.Draw(lightingShader);
+
+		// Left Arm
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(-1.2f, armMarioPos, 0.0f));
+		model = glm::rotate(model, glm::radians(armMarioAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(armMarioAngleX), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(armMarioAngleY), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		LeftArm.Draw(lightingShader);
+
+		// Right Leg
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f)); 
+		model = glm::rotate(model, glm::radians(legMarioAngle), glm::vec3(1.0f, 0.0, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RightLeg.Draw(lightingShader);
+
+		//Left Leg
+		model = modelBase;
+		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(legMarioAngle), glm::vec3(1.0f, 0.0, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		LeftLeg.Draw(lightingShader);
+
+
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
-	
+
 
 		// Also draw the lamp object, again binding the appropriate shader
 		lampShader.Use();
@@ -334,16 +560,30 @@ int main()
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// Draw the light object (using light's vertex attributes)
-		for (GLuint i = 0; i < 4; i++)
+		// dibujar lampara verticales
+		for (GLuint i = 0; i < 2; i++)
 		{
 			model = glm::mat4(1);
-			model = glm::translate(model, pointLightPositions[i]);
-			model = glm::scale(model, glm::vec3(0.1f)); // Make it a smaller cube
+			model = glm::translate(model, lightPivots[i]);
+			model = glm::scale(model, glm::vec3(1.8f, 56.0f, 2.5f)); // Make it a smaller cube
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			glBindVertexArray(VAO);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+
+
+		// Dibuja lámparas horizontales del techo
+		for (GLuint i = 0; i < NUM_PIVOTS_ROOF; i++)
+		{
+			model = glm::mat4(1);
+			model = glm::translate(model, lightPivotsroof[i]);
+			model = glm::scale(model, glm::vec3(100.0f, 1.8f, 2.5f)); // Alargada en Z
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			glBindVertexArray(VAO);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+
+
 		glBindVertexArray(0);
 
 
@@ -423,7 +663,7 @@ void DoMovement()
 }
 
 // Is called whenever a key is pressed/released via GLFW
-void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
 	{
@@ -454,6 +694,13 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 			Light1 = glm::vec3(0);//Cuado es solo un valor en los 3 vectores pueden dejar solo una componente
 		}
 	}
+
+	if (keys[GLFW_KEY_N])
+	{
+		AnimMario = !AnimMario;
+
+
+	}
 }
 
 void MouseCallback(GLFWwindow *window, double xPos, double yPos)
@@ -472,4 +719,67 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 	lastY = yPos;
 
 	camera.ProcessMouseMovement(xOffset, yOffset);
+}
+
+
+
+void Animation()
+{
+	if (!AnimMario)
+		return;
+
+	// Actualiza el giro propio (siempre girando cuando shineRotate está true)
+	// Uso deltaTime para velocidad independientemente del frame rate.
+	if (shineRotate) {
+		shineSpinAngle += 45.0f;
+	}
+	
+	
+	switch (marioState)
+	{
+	case 0:
+		if (marioHeight < 8.0f) {
+			marioHeight += 0.05f;
+			marioPos.y += 0.05f;
+			armMarioAngle -= 0.38f;
+			armMarioPos -= 0.01f;
+			legMarioAngle += 0.05f;
+		}
+		else {
+			marioState = 1;
+		}
+		break;
+	case 1:
+		if (armMarioAngleX<90.0f) {
+			armMarioAngleX += 10.0f;
+		}
+		else {
+			marioState = 2;
+		}
+		break;
+	case 2:
+		if (armMarioAngleY < 90.0f) {
+			armMarioAngleY += 10.0f;
+		}
+		else {
+			marioState = 3;
+		}
+		break;
+	case 3:
+		if (vueltasMario < 2.0f) {
+			marioRotation += 20.0f;
+			shineOrbitAngle += 20.0f;
+			if(marioRotation >= 360.0f) {
+				vueltasMario += 1.0f;
+				marioRotation = 0.0f;
+			}
+		}
+		shineOrbitActive = true;
+		shineRotate = false;
+		break;
+		
+		break;
+	default:
+		break;
+	}
 }
