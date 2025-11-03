@@ -41,7 +41,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd texturaBaseFuera.jpg
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaBaseFuera.jpg
 
 newmtl Material.003
 Ns 250.000000
@@ -51,7 +51,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd marmolTexture.jpg
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/marmolTexture.jpg
 
 newmtl Material.004
 Ns 250.000000
@@ -63,15 +63,15 @@ d 1.000000
 illum 2
 map_Kd luzAzul.png
 
-newmtl Material.005
+newmtl Material.006
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd popArt.jpg
+map_Kd Campbell'sSoupCans.jpg
 
 newmtl Material.007
 Ns 250.000000
@@ -101,7 +101,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd texturaBaseFuera.jpg
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaBaseFuera.jpg
 
 newmtl Material.010
 Ns 250.000000
@@ -114,16 +114,6 @@ illum 2
 map_Kd popArt.jpg
 
 newmtl Material.011
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd info.png
-
-newmtl Material.012
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -152,36 +142,6 @@ Ni 1.450000
 d 1.000000
 illum 2
 map_Kd info.png
-
-newmtl Material.015
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd popArt.jpg
-
-newmtl Material.016
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd info.png
-
-newmtl Material.017
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd popArt.jpg
 
 newmtl Material.018
 Ns 250.000000
@@ -213,26 +173,6 @@ d 1.000000
 illum 2
 map_Kd info.png
 
-newmtl Material.021
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd popArt.jpg
-
-newmtl Material.022
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd info.png
-
 newmtl Material.023
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
@@ -243,15 +183,25 @@ d 1.000000
 illum 2
 map_Kd popArt.jpg
 
-newmtl Material.024
+newmtl Material.025
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd info.png
+map_Kd DrowingGirl.jpg
+
+newmtl Material.026
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Hopeless.jpg
 
 newmtl Material.027
 Ns 250.000000
@@ -303,6 +253,96 @@ d 1.000000
 illum 2
 map_Kd luzAmarillo.png
 
+newmtl Material.032
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Whaam!.jpg
+
+newmtl Material.034
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaBaseFuera.jpg
+
+newmtl Material.037
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaBaseFuera.jpg
+
+newmtl Material.038
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd luzAmarillo.png
+
+newmtl Material.039
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd luzAmarillo.png
+
+newmtl Material.040
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Cambell'sSoupCansDescripción.png
+
+newmtl Material.041
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd DrowingGirlDescripción.png
+
+newmtl Material.042
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd HopelessDescripción.png
+
+newmtl Material.043
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd WhaamDescripción.png
+
 newmtl interior
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
@@ -311,7 +351,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd texturaDentro.jpg
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaDentro.jpg
 
 newmtl interior.001
 Ns 250.000000
@@ -321,9 +361,19 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd texturaDentro.jpg
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/texturaDentro.jpg
 
 newmtl luzTecho
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd luzMorada.png
+
+newmtl luzTecho.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -341,7 +391,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd receptionTable.jpg
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/receptionTable.jpg
 
 newmtl receptionTableUnder
 Ns 250.000000
@@ -351,7 +401,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd marmolTexture.jpg
+map_Kd C:/Users/leoci/OneDrive/Documentos/10moSemestre/CompuGrafica/proyecto/Project1/models/marmolTexture.jpg
 
 newmtl wire_135006006
 Ns 32.000008
