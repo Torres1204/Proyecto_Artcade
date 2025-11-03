@@ -66,6 +66,14 @@ glm::vec3 lightPivots[] = {
 	glm::vec3(-101.54f,13.0f, 283.63f),
 };
 
+glm::vec3 lightPivotsroof[] = {
+	glm::vec3(-155.125f, 46.1014f, 79.0f),
+	glm::vec3(-155.125f, 46.1014f, 162.923f),
+	glm::vec3(-155.125f, 46.1014f, 180.69f),
+	glm::vec3(-155.125f, 46.1014f, 269.255f),
+	glm::vec3(-155.125f, 46.1014f, 283.631f),
+};
+
 std::vector<glm::vec3> pointLightPositions;
 
 
@@ -275,7 +283,7 @@ int main()
 	};
 	const int NUM_OFFSETS = sizeof(yOffsets) / sizeof(yOffsets[0]);
 
-	// 1. Generar y almacenar todas las posiciones de luz en el vector global
+	// Generar y almacenar todas las posiciones de luz en el vector global
 	for (int i = 0; i < NUM_PIVOTS; ++i) {
 		glm::vec3 pivot = lightPivots[i];
 		// Iterar sobre los desplazamientos en Y
@@ -290,6 +298,38 @@ int main()
 			pointLightPositions.push_back(finalPosition);
 		}
 	}
+
+
+
+	//luces en el techo
+
+	float zOffsetsRoof[] = {
+		 0.0f, 5.0f, 10.0f, 20.0f, 25.0f, 30.0f, 35.0f, 40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 65.0f, -5.0f, -10.0f, -15.0f, -20.0f, -25.0f,
+		  -30.0f, -35.0f, -40.0f, -45.0f, -50.0f, -55.0f, -60.0f, -65.0f
+	};
+	const int NUM_Z_OFFSETS = sizeof(zOffsetsRoof) / sizeof(zOffsetsRoof[0]);
+	std::vector<glm::vec3> pointLightpivotsRoof;
+	glm::vec3 roofLightColor = glm::vec3(1.0f, 0.6f, 1.0f); 
+
+
+	const int NUM_PIVOTS_ROOF = sizeof(lightPivotsroof) / sizeof(lightPivotsroof[0]);
+	for (int i = 0; i < NUM_PIVOTS_ROOF; ++i) {
+		glm::vec3 pivot = lightPivotsroof[i];
+		for (int j = 0; j < NUM_Z_OFFSETS; ++j) {
+			glm::vec3 finalPosition = glm::vec3(
+				pivot.x + zOffsetsRoof[j],
+				pivot.y,           
+				pivot.z 
+			);
+			pointLightpivotsRoof.push_back(finalPosition);
+		}
+	}
+
+
+	for (int i = 0; i < pointLightpivotsRoof.size(); ++i) {
+		pointLightPositions.push_back(pointLightpivotsRoof[i]);
+	}
+
 
 	// Calcula numLights a partir del vector después de que ha sido llenado
 	const int numLights = pointLightPositions.size();
@@ -339,6 +379,7 @@ int main()
 
 		const int LIGHTS_PER_PIVOT = 18; // Definido aquí para mayor claridad o como constante global
 		int numColors = diffuseColors.size();
+		glm::vec3 currentDiffuseColor;
 
 		for (int i = 0; i < numLights; ++i) {
 			std::string base = "pointLights[" + std::to_string(i) + "]";
@@ -352,7 +393,13 @@ int main()
 			int pairIndex = pivotIndex / 2;
 
 			// 3. Seleccionar el color usando el índice del par y el módulo de la cantidad de colores
-			glm::vec3 currentDiffuseColor = diffuseColors[pairIndex % numColors];
+			if (i >= 180) {
+				currentDiffuseColor = glm::vec3(1.0f, 0.0f, 1.0f);
+			}
+			else {
+				currentDiffuseColor = diffuseColors[pairIndex % numColors];
+			}
+			
 
 			// 4. Enviar Posición
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".position").c_str()),
@@ -513,7 +560,7 @@ int main()
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// Draw the light object (using light's vertex attributes)
+		// dibujar lampara verticales
 		for (GLuint i = 0; i < 2; i++)
 		{
 			model = glm::mat4(1);
@@ -523,6 +570,20 @@ int main()
 			glBindVertexArray(VAO);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+
+
+		// Dibuja lámparas horizontales del techo
+		for (GLuint i = 0; i < NUM_PIVOTS_ROOF; i++)
+		{
+			model = glm::mat4(1);
+			model = glm::translate(model, lightPivotsroof[i]);
+			model = glm::scale(model, glm::vec3(100.0f, 1.8f, 2.5f)); // Alargada en Z
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			glBindVertexArray(VAO);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+
+
 		glBindVertexArray(0);
 
 
