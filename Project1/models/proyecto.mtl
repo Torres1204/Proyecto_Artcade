@@ -311,7 +311,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd Cambell'sSoupCansDescripción.png
+map_Kd DrowingGirlDescripcion.png
 
 newmtl Material.041
 Ns 250.000000
@@ -321,7 +321,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd DrowingGirlDescripción.png
+map_Kd DrowingGirlDescripcion.png
 
 newmtl Material.042
 Ns 250.000000
@@ -331,7 +331,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd HopelessDescripción.png
+map_Kd HopelessDescripcion.png
 
 newmtl Material.043
 Ns 250.000000
@@ -341,7 +341,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd WhaamDescripción.png
+map_Kd WhaamDescripcion.png
 
 newmtl interior
 Ns 250.000000
