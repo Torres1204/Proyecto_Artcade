@@ -13,16 +13,6 @@ map_Ns C:/Chair and table_Roughness.png
 map_refl C:/Chair and table_Metallic.png
 map_Bump -bm 1.000000 C:/Chair and table_Normal.png
 
-newmtl Material
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd info.png
-
 newmtl Material.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
@@ -62,6 +52,16 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd luzAzul.png
+
+newmtl Material.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Comic Jumper - Obra.png
 
 newmtl Material.006
 Ns 250.000000
@@ -103,16 +103,6 @@ d 1.000000
 illum 2
 map_Kd texturaBaseFuera.jpg
 
-newmtl Material.010
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd popArt.jpg
-
 newmtl Material.011
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
@@ -123,65 +113,75 @@ d 1.000000
 illum 2
 map_Kd info.png
 
-newmtl Material.013
+newmtl Material.012
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd popArt.jpg
+map_Kd Comic Jumper - Descripcion.jpg
 
-newmtl Material.014
+newmtl Material.015
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd info.png
+map_Kd Jet Set Radio - Obra.jpg
 
-newmtl Material.018
+newmtl Material.016
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd info.png
+map_Kd Jet Set Radio - Descripcion.jpg
 
-newmtl Material.019
+newmtl Material.017
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd popArt.jpg
+map_Kd Killer7 - Obra.jpg
 
-newmtl Material.020
+newmtl Material.021
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd info.png
+map_Kd Killer7 - Descripcion.jpg
 
-newmtl Material.023
+newmtl Material.022
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
 illum 2
-map_Kd popArt.jpg
+map_Kd Viewtiful Joe - Obra.png
+
+newmtl Material.024
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Viewtiful Joe - Descripcion.jpg
 
 newmtl Material.025
 Ns 250.000000
