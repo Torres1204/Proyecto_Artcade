@@ -64,6 +64,9 @@ glm::vec3 lightPivots[] = {
 
 	glm::vec3(-211.63f, 13.0f, 283.63f),
 	glm::vec3(-101.54f,13.0f, 283.63f),
+
+	glm::vec3(-211.63f, 13.0f, 368.893f),
+	glm::vec3(-101.54f,13.0f, 368.893f),
 };
 
 glm::vec3 lightPivotsroof[] = {
@@ -72,6 +75,7 @@ glm::vec3 lightPivotsroof[] = {
 	glm::vec3(-155.125f, 46.1014f, 180.69f),
 	glm::vec3(-155.125f, 46.1014f, 269.255f),
 	glm::vec3(-155.125f, 46.1014f, 283.631f),
+	glm::vec3(-155.125f, 46.1014f, 368.893f),
 };
 
 std::vector<glm::vec3> pointLightPositions;
@@ -86,6 +90,7 @@ std::vector<glm::vec3> diffuseColors = {
 	glm::vec3(0.0f, 0.3f, 1.0f),
 	glm::vec3(1.0f, 1.0f, 0.0f),
 	glm::vec3(0.0f, 0.3f, 1.0f),
+	glm::vec3(1.0f, 1.0f, 0.0f),
 	
 
 };
@@ -393,7 +398,7 @@ int main()
 			int pairIndex = pivotIndex / 2;
 
 			// 3. Seleccionar el color usando el índice del par y el módulo de la cantidad de colores
-			if (i >= 180) {
+			if (i >= 216) {
 				currentDiffuseColor = glm::vec3(1.0f, 0.0f, 1.0f);
 			}
 			else {

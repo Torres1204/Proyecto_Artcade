@@ -1,6 +1,6 @@
 #version 330 core
 
-#define NUMBER_OF_POINT_LIGHTS 310
+#define NUMBER_OF_POINT_LIGHTS 370
 
 struct Material
 {
