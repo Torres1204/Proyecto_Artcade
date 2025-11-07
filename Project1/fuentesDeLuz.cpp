@@ -249,6 +249,13 @@ int main()
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
 	Model Proyecto((char*)"models/proyecto.obj");
+	//Exterior
+	/*Model Pasto((char*)"models/pasto.obj");*/
+	/*Model Interior((char*)"models/interior.obj");*/
+	/*Model Retro((char*)"models/suelo_retro.obj");*/
+	/*Model Carretera((char*)"models/carretera_b.obj");*/
+	
+	//Modelos de Mario
 	Model Shine((char*)"models/monedaMario.obj");
 	Model MarioBody((char*)"models/body_mario.obj");
 	Model HeadMario((char*)"models/head_mario.obj");
@@ -256,7 +263,6 @@ int main()
 	Model LeftLeg((char*)"models/L_leg_mario.obj");
 	Model RightArm((char*)"models/R_arm_mario.obj");
 	Model LeftArm((char*)"models/L_arm_mario.obj");
-
 
 
 	// First, set the container's VAO (and VBO)
@@ -476,6 +482,9 @@ int main()
 		//esqueleto del proyecto
 	    Proyecto.Draw(lightingShader);
 
+		////Pasto
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//Carretera.Draw(lightingShader);
 
 		//sol
 		if (shineOrbitActive) {
