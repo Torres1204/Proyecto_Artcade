@@ -45,9 +45,13 @@ bool firstMouse = true;
 glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 bool active;
 
+// posiciones de las luces puntuales en el escenario
+std::vector<glm::vec3> pointLightPositions;
 
+//posiciones de las luces puntuales en el techo
+std::vector<glm::vec3> pointLightpivotsRoof;
 
-
+//posiciones de la fuente de luz en las paredes (lamparas)
 glm::vec3 lightPivots[] = {
 	glm::vec3(-211.63f, 13.0f, 79.0f),
 	glm::vec3(-101.54f,13.0f, 79.0f),
@@ -69,6 +73,8 @@ glm::vec3 lightPivots[] = {
 	glm::vec3(-101.54f,13.0f, 368.893f),
 };
 
+
+//posiciones de la fuente de luz en el techo (lamparas)
 glm::vec3 lightPivotsroof[] = {
 	glm::vec3(-155.125f, 46.1014f, 79.0f),
 	glm::vec3(-155.125f, 46.1014f, 162.923f),
@@ -78,7 +84,100 @@ glm::vec3 lightPivotsroof[] = {
 	glm::vec3(-155.125f, 46.1014f, 368.893f),
 };
 
-std::vector<glm::vec3> pointLightPositions;
+/*
+* variables para la animacion de las monedas
+* coinAnim: indica si la animacion de las monedas subiendo y bajando esta activa
+* coinUp: indica si la moneda esta subiendo o bajando, true para subiendo, false para bajando
+* coinRotate: indica si la moneda esta rotando, true para rotando, false para no rotando
+* animateCoins: indica si la animacion de las monedas desplazandose esta activa
+* animationProgress: progreso de la animacion de las monedas desplazandose el cual va de 0.0 a 1.0
+* animationSpeed: velocidad de la animacion de las monedas desplazandose
+* coinYOffset = 0.0f: offset en Y para la animacion de las monedas subiendo y bajando
+* coinRotateY = 0.0f: angulo de rotacion en Y para la animacion de las monedas rotando
+* animationDirectionCoins: direccion de la animacion de las monedas desplazandose 1 es para cuando se construye la figura y -1 para cuando se vuelve a su pos original
+
+*/
+float coinAnim = true; 
+bool coinUp = true; 
+bool coinRotate = true; 
+bool animateCoins = false; 
+float animationProgress = 0.0f;
+float animationSpeed = 0.3f; 
+float coinYOffset = 0.0f; 
+float coinRotateY = 0.0f; 
+int animationDirectionCoins = 1; 
+
+
+//posiciones iniciales de las monedas
+glm::vec3 coinsPos[] = {
+	glm::vec3(-190.125f, 0.0f, 87.03f),
+	glm::vec3(-170.125f, 2.0f, 150.03f),
+	glm::vec3(-180.125f, 10.0f, 200.03f),
+	glm::vec3(-130.125f, 4.0f, 140.03f),
+	glm::vec3(-140.125f, 1.0, 210.03f),
+	glm::vec3(-150.125f, 8.0, 180.03f),
+	glm::vec3(-168.125f, 10.0f, 230.03f),
+	glm::vec3(-120.125f, 2.0f, 240.03f),
+	glm::vec3(-145.125f, 4.0f, 250.03f),
+	glm::vec3(-130.125f, 10.0f, 90.03f),
+	glm::vec3(-120.125f, 0.0f, 110.03f),
+	glm::vec3(-150.125f, 5.0f, 280.03f),
+	glm::vec3(-168.125f, 10.0f, 290.03f),
+	glm::vec3(-170.125f, 0.0f, 300.03f),
+	glm::vec3(-180.125f, 7.0f, 310.03f),
+	glm::vec3(-155.125f, 0.0f, 150.03f),
+	glm::vec3(-170.125f, 2.0f, 140.03f),
+	glm::vec3(-180.125f, 4.0f, 300.03f),
+	glm::vec3(-115.125f, 4.0f, 160.03f),
+	glm::vec3(-140.125f, 0.0, 340.03f),
+	glm::vec3(-210.125f, 6.0, 80.03f),
+	glm::vec3(-1.125f, 10.0f, 230.03f),
+	glm::vec3(-125.125f, 0.0f, 190.03f),
+	glm::vec3(-140.125f, -2.0f, 170.03f),
+	glm::vec3(-115.125f, -2.0f, 190.03f),
+	glm::vec3(-125.125f, -2.0f, 150.03f),
+	glm::vec3(-150.125f, -2.0f, 100.03f),
+	glm::vec3(-180.125f, -2.0f, 320.03f),
+	glm::vec3(-200.125f, -2.0f, 120.03f),
+	glm::vec3(-150.125f, -2.0f, 330.03f),
+};
+
+//posiciones en forma de rupia de las monedas
+
+glm::vec3 coinsPosRupia[]{
+	glm::vec3(-157.77f, 11.82f, 103.243f),
+	glm::vec3(-155.735f,9.55077f,103.243f),
+	glm::vec3(-154.026f, 7.71638f, 103.243f),
+	glm::vec3(-152.383f, 5.85664f, 103.243f),
+	glm::vec3(-151.705f, 3.65661f, 103.243f),
+	glm::vec3(-151.705f, 1.24527f, 103.243f),
+	glm::vec3(-151.705f, -1.30285f, 103.243f),
+	glm::vec3(-151.705f, -3.8088f, 103.243f),
+	glm::vec3(-152.268f, -6.15162f, 103.243f),
+	glm::vec3(-153.957f, -7.98601f, 103.243f),
+	glm::vec3(-155.581f, -9.84576f, 103.243f),
+	glm::vec3(-157.774f, -11.182f, 103.243f),
+	glm::vec3(-159.675f, -9.84576f, 103.243f),
+	glm::vec3(-161.317f, -7.98601f, 103.243f),
+	glm::vec3(-163.026f, -6.15162f, 103.243f),
+	glm::vec3(-163.842f, -3.80877f, 103.243f),
+	glm::vec3(-163.842f, -1.30285f, 103.243f),
+	glm::vec3(-163.842f, 1.24527f, 103.243f),
+	glm::vec3(-163.842f, 3.65661f, 103.243f),
+	glm::vec3(-162.917f, 5.85664f, 103.243f),
+	glm::vec3(-161.365f, 7.71638f, 103.243f),
+	glm::vec3(-159.75f, 9.55077f, 103.243f),
+	glm::vec3(-157.774f, 4.67077f , 103.243f),
+	glm::vec3(-155.65f, 2.78606f , 103.243f),
+	glm::vec3(-155.65f, 0.290141f , 103.243f),
+	glm::vec3(-155.65f, -2.37915f, 103.243f),
+	glm::vec3(-157.774f, -4.25789f, 103.243f),
+	glm::vec3(-159.898f,-2.37915f , 103.243f),
+	glm::vec3(-159.898f, 0.290141f , 103.243f),
+	glm::vec3(-159.898f,2.86371f , 103.243f),
+};
+
+
 
 
 
@@ -153,7 +252,17 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 
-//AmimacionMario
+
+/*
+* Variables para la animacion de Mario
+* animMario: indica si la animacion de Mario esta activa
+* marioState: indica el estado de la animacion de Mario
+* vueltasMario: cuenta las vueltas que ha dado Mario en la animacion
+* marioRotation: angulo de rotacion de Mario en la animacion
+* marioHeight: altura de Mario en la animacion
+* marioPos: posicion de Mario
+* modelTemp: matriz temporal para guardar la posicion inicial de Mario
+*/
 float headMario = 0.0f;
 float bodyMario = 0.0f;
 float armRightMario = 0.0f;
@@ -170,23 +279,24 @@ float armMarioAngleY = 0.0f;
 float armMarioPos = 1.0f;
 float legMarioAngle = 0.0f;
 float vueltasMario = 0.0f;
+bool AnimMario = false;
+glm::vec3 marioPos(-152.0f, -6.42124f, 387.647f);
+glm::mat4 modelTemp = glm::mat4(1.0f);
 
-//animacion shine
+
+/*
+* Variables para la animacion del sol
+* shineRotateAngle: angulo de rotacion del sol
+* shineRotate: indica si la rotacion del sol esta activa
+* shineUp: indica si el sol esta subiendo
+* shineSpinAngle: angulo de spin del sol
+*/
 float shineRotateAngle = 10.0f;
 bool shineRotate = true;
 bool shineUp = false;
 float shineOrbitAngle = 0.0f;      
 bool shineOrbitActive = false;    
-float shineSpinAngle = 1.0f;       
-
-
-bool AnimMario = false;
-glm::vec3 marioPos(-152.0f, -6.42124f, 387.647f);
-//glm::vec3 marioPos(0.0f, 0.0f, 0.0f);
-glm::mat4 modelTemp = glm::mat4(1.0f); //Temp
-
-
-
+float shineSpinAngle = 1.0f;   
 
 
 int main()
@@ -248,6 +358,7 @@ int main()
 	Shader lightingShader("Shader/lighting.vs", "Shader/lighting.frag");
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
+	// Carga de modelos
 	Model Proyecto((char*)"models/proyecto.obj");
 	Model Shine((char*)"models/monedaMario.obj");
 	Model MarioBody((char*)"models/body_mario.obj");
@@ -256,6 +367,7 @@ int main()
 	Model LeftLeg((char*)"models/L_leg_mario.obj");
 	Model RightArm((char*)"models/R_arm_mario.obj");
 	Model LeftArm((char*)"models/L_arm_mario.obj");
+	Model Coin((char*)"models/coin.obj");
 
 
 
@@ -281,17 +393,19 @@ int main()
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 300.0f);
 
 
-	const int NUM_PIVOTS = sizeof(lightPivots) / sizeof(lightPivots[0]);
+	/*****GENERACIÓN DE LA POSICIÓN DE LUCES PUNTUALES PARA LAS PAREDES*****/
 
+	const int NUM_PIVOTS = sizeof(lightPivots) / sizeof(lightPivots[0]);
+	//posiciones de offset en Y para las luces de las paredes
 	float yOffsets[] = {
 	 0.0f, 3.0f, 6.0f, 9.0f, 12.0f, 16.0f, 23.0f, 26.0f, 29.0f, 32.0f, 35.0f, 38.0f, 41.0f, -3.0f, -6.0f, -9.0f, -12.0f, -15.0f
 	};
+	//calculo de las posiciones de las luces puntuales
 	const int NUM_OFFSETS = sizeof(yOffsets) / sizeof(yOffsets[0]);
 
 	// Generar y almacenar todas las posiciones de luz en el vector global
 	for (int i = 0; i < NUM_PIVOTS; ++i) {
 		glm::vec3 pivot = lightPivots[i];
-		// Iterar sobre los desplazamientos en Y
 		for (int j = 0; j < NUM_OFFSETS; ++j) {
 			glm::vec3 finalPosition = glm::vec3(
 				pivot.x,
@@ -299,24 +413,25 @@ int main()
 				pivot.z
 			);
 
-			// Almacena la posición final en el vector global
+			// Almacena la posición final 
 			pointLightPositions.push_back(finalPosition);
 		}
 	}
 
 
-
-	//luces en el techo
-
+	/*****GENERACIÓN DE LAS POSICIONES DE LUCES PUNTUALES PARA EL TECHO*****/
+	//posiciones de offset en Z para las luces del techo
 	float zOffsetsRoof[] = {
 		 0.0f, 5.0f, 10.0f, 20.0f, 25.0f, 30.0f, 35.0f, 40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 65.0f, -5.0f, -10.0f, -15.0f, -20.0f, -25.0f,
 		  -30.0f, -35.0f, -40.0f, -45.0f, -50.0f, -55.0f, -60.0f, -65.0f
 	};
+	// Calcular el número de offsets
 	const int NUM_Z_OFFSETS = sizeof(zOffsetsRoof) / sizeof(zOffsetsRoof[0]);
-	std::vector<glm::vec3> pointLightpivotsRoof;
+
+	// Color de las luces del techo (morado)
 	glm::vec3 roofLightColor = glm::vec3(1.0f, 0.6f, 1.0f); 
 
-
+	// Generar y almacenar todas las posiciones de luz en el techo
 	const int NUM_PIVOTS_ROOF = sizeof(lightPivotsroof) / sizeof(lightPivotsroof[0]);
 	for (int i = 0; i < NUM_PIVOTS_ROOF; ++i) {
 		glm::vec3 pivot = lightPivotsroof[i];
@@ -330,7 +445,7 @@ int main()
 		}
 	}
 
-
+	// Agregar las posiciones del techo al vector principal de posiciones de luces puntuales
 	for (int i = 0; i < pointLightpivotsRoof.size(); ++i) {
 		pointLightPositions.push_back(pointLightpivotsRoof[i]);
 	}
@@ -382,49 +497,46 @@ int main()
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.8f, 0.8f, 0.8f);
 
 
-		const int LIGHTS_PER_PIVOT = 18; // Definido aquí para mayor claridad o como constante global
+		// Número de luces por cada pivote en las paredes
+		const int LIGHTS_PER_PIVOT = 18; 
 		int numColors = diffuseColors.size();
 		glm::vec3 currentDiffuseColor;
 
 		for (int i = 0; i < numLights; ++i) {
 			std::string base = "pointLights[" + std::to_string(i) + "]";
 
-			// 1. Calcular el índice del pivote al que pertenece esta luz
-			// Ej: Luz 0-17 -> Pivote 0; Luz 18-35 -> Pivote 1; etc.
+
+			//Calcular el indice del pivote cada 18 puntos es un pivote
 			int pivotIndex = i / LIGHTS_PER_PIVOT;
 
-			// 2. Calcular el índice del PAR de pivotes
-			// Ej: Pivotes 0 y 1 -> Par 0; Pivotes 2 y 3 -> Par 1; etc.
+			// Calcular el índice del PAR de pivotes
 			int pairIndex = pivotIndex / 2;
 
-			// 3. Seleccionar el color usando el índice del par y el módulo de la cantidad de colores
+			// Seleccionar el color de la luz en base al número de luces creadas hasta el momento
+			// Si es mayor o igual a 216 se dibujan las luces del techo, usar color morado
+			// Si no, alternar entre los colores definidos para las paredes
 			if (i >= 216) {
 				currentDiffuseColor = glm::vec3(1.0f, 0.0f, 1.0f);
 			}
+
 			else {
 				currentDiffuseColor = diffuseColors[pairIndex % numColors];
 			}
 			
 
-			// 4. Enviar Posición
+			// Dar la posición de la luz y sus configuraciones
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".position").c_str()),
 				pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z);
 
-			// 5. Enviar Colores (Difuso es el que cambia)
-
-			// Color Ambiental: Tenue, basado en el difuso para mantener el tono
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".ambient").c_str()),
 				currentDiffuseColor.x * 0.05f, currentDiffuseColor.y * 0.05f, currentDiffuseColor.z * 0.05f);
 
-			// Color Difuso: El color principal del par de pivotes
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".diffuse").c_str()),
 				currentDiffuseColor.x, currentDiffuseColor.y, currentDiffuseColor.z);
 
-			// Color Especular: Reflejo suave (opcionalmente puedes usar el color difuso también)
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".specular").c_str()),
 				currentDiffuseColor.x * 0.5f, currentDiffuseColor.y * 0.5f, currentDiffuseColor.z * 0.5f);
 
-			// 6. Enviar Atenuación (Se mantiene constante)
 			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".constant").c_str()), 1.0f);
 			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".linear").c_str()), 0.09f);
 			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".quadratic").c_str()), 0.032f);
@@ -464,20 +576,19 @@ int main()
 
 	
 
-		//Carga de modelo 
+		//Dibujo de modelo del escenario
         view = camera.GetViewMatrix();	
 		model = glm::mat4(1);
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-
-
-		//esqueleto del proyecto
 	    Proyecto.Draw(lightingShader);
 
 
-		//sol
+		/*
+		* Dibujo del modelo del sol y movimiento apartir de la posición de mario
+		*/
 		if (shineOrbitActive) {
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, glm::vec3(marioPos.x, marioPos.y, marioPos.z)); 
@@ -497,12 +608,12 @@ int main()
 
 
 
-		// Mario
+		/*
+		* Dibujo del modelo de Mario dividido en partes por jerarquia
+		*/
 		glm::mat4 modelMario = glm::mat4(1.0f);
 		modelMario = glm::translate(modelMario, marioPos);
 		modelMario = glm::rotate(modelMario, glm::radians(marioRotation), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		// Guarda esta base para las partes del cuerpo
 		glm::mat4 modelBase = modelMario;
 
 		// Body
@@ -546,6 +657,24 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		LeftLeg.Draw(lightingShader);
 
+		//Dibujo de las monedas con animacion de subida y bajada
+		for (int i = 0; i < sizeof(coinsPos) / sizeof(coinsPos[0]); i++) {
+			glm::mat4 model = glm::mat4(1.0f);
+			if(animateCoins==false)
+			{
+				if (i % 2 == 0) {
+					coinYOffset = sin(glfwGetTime() * 2.0f) * 1.0f;
+				}
+				else {
+					coinYOffset = cos(glfwGetTime() * 2.0f) * 2.0f;
+				}
+			}
+			glm::vec3 currentPos = glm::mix(coinsPos[i], coinsPosRupia[i], animationProgress);
+			model = glm::translate(model, glm::vec3(currentPos.x, currentPos.y + coinYOffset, currentPos.z));
+			model = glm::rotate(model, glm::radians(coinRotateY), glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Coin.Draw(lightingShader);
+		}
 
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
@@ -703,8 +832,19 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	if (keys[GLFW_KEY_N])
 	{
 		AnimMario = !AnimMario;
+	}
 
+	if (keys[GLFW_KEY_M])
+	{
+		animateCoins = true;
+		animationProgress = 0.0f;
+		animationDirectionCoins = 1;
+	}
 
+	if (keys[GLFW_KEY_Z])
+	{
+		animateCoins = true;
+		animationDirectionCoins = -1;
 	}
 }
 
@@ -730,11 +870,49 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 
 void Animation()
 {
+
+	//animacion de las monedas subida y bajada
+	if (coinAnim) {
+		//estado 0 de la animacion de las monedas 
+		coinRotateY += 2.0f;
+		//estado 1 de la animacion de las monedas, la moneda sube
+		if (coinYOffset >= 5.0f) {
+			coinUp = false;
+		}
+		//estado 2 de la animacion de las monedas, la moneda baja
+		else if (coinYOffset <= -0.0f) {
+			coinUp = true;
+		}
+		//movimiento de la moneda en Y
+		if (coinUp) {
+			coinYOffset += 0.1f;
+		}
+		else {
+			coinYOffset -= 0.1f;
+		}
+	}
+
+	if (animateCoins) {
+
+		animationProgress += deltaTime * animationSpeed * animationDirectionCoins;
+		//estado 3 de la animacion de las monedas las monedas se mueven hasta formar la rupia
+		if (animationProgress >= 1.0f and animationDirectionCoins == 1) {
+			animationProgress = 1.0f;
+			coinYOffset = 0.0f;
+		}
+
+		//estado 4 de la animacion de las monedas las monedas vuelven a su posicion inicial
+		if (animationDirectionCoins == -1 && animationProgress <= 0.0f) {
+			animationProgress = 0.0f;
+		}
+	}
+
+	
+
+
 	if (!AnimMario)
 		return;
 
-	// Actualiza el giro propio (siempre girando cuando shineRotate está true)
-	// Uso deltaTime para velocidad independientemente del frame rate.
 	if (shineRotate) {
 		shineSpinAngle += 45.0f;
 	}
@@ -742,6 +920,7 @@ void Animation()
 	
 	switch (marioState)
 	{
+		//estado 0 de la animacion de mario sube
 	case 0:
 		if (marioHeight < 8.0f) {
 			marioHeight += 0.05f;
@@ -754,6 +933,7 @@ void Animation()
 			marioState = 1;
 		}
 		break;
+		//estado 1 de la animacion de mario levanta el brazo en X
 	case 1:
 		if (armMarioAngleX<90.0f) {
 			armMarioAngleX += 10.0f;
@@ -762,6 +942,7 @@ void Animation()
 			marioState = 2;
 		}
 		break;
+		//estado 2 de la animacion de mario gira el brazo en Y
 	case 2:
 		if (armMarioAngleY < 90.0f) {
 			armMarioAngleY += 10.0f;
@@ -770,6 +951,7 @@ void Animation()
 			marioState = 3;
 		}
 		break;
+		//estado 3 de la animacion de mario gira alrededor de su eje Y
 	case 3:
 		if (vueltasMario < 2.0f) {
 			marioRotation += 20.0f;
