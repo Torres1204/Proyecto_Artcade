@@ -78,6 +78,83 @@ glm::vec3 lightPivotsroof[] = {
 	glm::vec3(-155.125f, 46.1014f, 368.893f),
 };
 
+//monedas mario
+float coinAnim = true;
+bool coinUp = true;
+bool coinRotate = true;
+bool animateCoins = false;
+float animationProgress = 0.0f;
+float animationSpeed = 0.3f;
+float coinYOffset = 0.0f;
+float coinRotateY = 0.0f;
+int animationDirectionCoins = 1;
+
+glm::vec3 coinsPos[] = {
+	glm::vec3(-190.125f, 0.0f, 87.03f),
+	glm::vec3(-170.125f, 2.0f, 150.03f),
+	glm::vec3(-180.125f, 10.0f, 200.03f),
+	glm::vec3(-130.125f, 4.0f, 140.03f),
+	glm::vec3(-140.125f, 1.0, 210.03f),
+	glm::vec3(-150.125f, 8.0, 180.03f),
+	glm::vec3(-168.125f, 10.0f, 230.03f),
+	glm::vec3(-120.125f, 2.0f, 240.03f),
+	glm::vec3(-145.125f, 4.0f, 250.03f),
+	glm::vec3(-130.125f, 10.0f, 90.03f),
+	glm::vec3(-120.125f, 0.0f, 110.03f),
+	glm::vec3(-150.125f, 5.0f, 280.03f),
+	glm::vec3(-168.125f, 10.0f, 290.03f),
+	glm::vec3(-170.125f, 0.0f, 300.03f),
+	glm::vec3(-180.125f, 7.0f, 310.03f),
+	glm::vec3(-155.125f, 0.0f, 150.03f),
+	glm::vec3(-170.125f, 2.0f, 140.03f),
+	glm::vec3(-180.125f, 4.0f, 300.03f),
+	glm::vec3(-115.125f, 4.0f, 160.03f),
+	glm::vec3(-140.125f, 0.0, 340.03f),
+	glm::vec3(-210.125f, 6.0, 80.03f),
+	glm::vec3(-1.125f, 10.0f, 230.03f),
+	glm::vec3(-125.125f, 0.0f, 190.03f),
+	glm::vec3(-140.125f, -2.0f, 170.03f),
+	glm::vec3(-115.125f, -2.0f, 190.03f),
+	glm::vec3(-125.125f, -2.0f, 150.03f),
+	glm::vec3(-150.125f, -2.0f, 100.03f),
+	glm::vec3(-180.125f, -2.0f, 320.03f),
+	glm::vec3(-200.125f, -2.0f, 120.03f),
+	glm::vec3(-150.125f, -2.0f, 330.03f),
+};
+
+glm::vec3 coinsPosRupia[]{
+	glm::vec3(-157.77f, 11.82f, 103.243f),
+	glm::vec3(-155.735f,9.55077f,103.243f),
+	glm::vec3(-154.026f, 7.71638f, 103.243f),
+	glm::vec3(-152.383f, 5.85664f, 103.243f),
+	glm::vec3(-151.705f, 3.65661f, 103.243f),
+	glm::vec3(-151.705f, 1.24527f, 103.243f),
+	glm::vec3(-151.705f, -1.30285f, 103.243f),
+	glm::vec3(-151.705f, -3.8088f, 103.243f),
+	glm::vec3(-152.268f, -6.15162f, 103.243f),
+	glm::vec3(-153.957f, -7.98601f, 103.243f),
+	glm::vec3(-155.581f, -9.84576f, 103.243f),
+	glm::vec3(-157.774f, -11.182f, 103.243f),
+	glm::vec3(-159.675f, -9.84576f, 103.243f),
+	glm::vec3(-161.317f, -7.98601f, 103.243f),
+	glm::vec3(-163.026f, -6.15162f, 103.243f),
+	glm::vec3(-163.842f, -3.80877f, 103.243f),
+	glm::vec3(-163.842f, -1.30285f, 103.243f),
+	glm::vec3(-163.842f, 1.24527f, 103.243f),
+	glm::vec3(-163.842f, 3.65661f, 103.243f),
+	glm::vec3(-162.917f, 5.85664f, 103.243f),
+	glm::vec3(-161.365f, 7.71638f, 103.243f),
+	glm::vec3(-159.75f, 9.55077f, 103.243f),
+	glm::vec3(-157.774f, 4.67077f , 103.243f),
+	glm::vec3(-155.65f, 2.78606f , 103.243f),
+	glm::vec3(-155.65f, 0.290141f , 103.243f),
+	glm::vec3(-155.65f, -2.37915f, 103.243f),
+	glm::vec3(-157.774f, -4.25789f, 103.243f),
+	glm::vec3(-159.898f,-2.37915f , 103.243f),
+	glm::vec3(-159.898f, 0.290141f , 103.243f),
+	glm::vec3(-159.898f,2.86371f , 103.243f),
+};
+
 std::vector<glm::vec3> pointLightPositions;
 
 
@@ -177,7 +254,7 @@ bool shineRotate = true;
 bool shineUp = false;
 float shineOrbitAngle = 0.0f;      
 bool shineOrbitActive = false;    
-float shineSpinAngle = 1.0f;       
+float shineSpinAngle = 1.0f;   
 
 
 bool AnimMario = false;
@@ -256,6 +333,7 @@ int main()
 	Model LeftLeg((char*)"models/L_leg_mario.obj");
 	Model RightArm((char*)"models/R_arm_mario.obj");
 	Model LeftArm((char*)"models/L_arm_mario.obj");
+	Model Coin((char*)"models/coin.obj");
 
 
 
@@ -546,6 +624,23 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		LeftLeg.Draw(lightingShader);
 
+		for (int i = 0; i < sizeof(coinsPos) / sizeof(coinsPos[0]); i++) {
+			glm::mat4 model = glm::mat4(1.0f);
+			if(animateCoins==false)
+			{
+				if (i % 2 == 0) {
+					coinYOffset = sin(glfwGetTime() * 2.0f) * 1.0f;
+				}
+				else {
+					coinYOffset = cos(glfwGetTime() * 2.0f) * 2.0f;
+				}
+			}
+			glm::vec3 currentPos = glm::mix(coinsPos[i], coinsPosRupia[i], animationProgress);
+			model = glm::translate(model, glm::vec3(currentPos.x, currentPos.y + coinYOffset, currentPos.z));
+			model = glm::rotate(model, glm::radians(coinRotateY), glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			Coin.Draw(lightingShader);
+		}
 
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
@@ -703,8 +798,19 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	if (keys[GLFW_KEY_N])
 	{
 		AnimMario = !AnimMario;
+	}
 
+	if (keys[GLFW_KEY_M])
+	{
+		animateCoins = true;
+		animationProgress = 0.0f;
+		animationDirectionCoins = 1;
+	}
 
+	if (keys[GLFW_KEY_Z])
+	{
+		animateCoins = true;
+		animationDirectionCoins = -1;
 	}
 }
 
@@ -730,11 +836,38 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 
 void Animation()
 {
+	if (coinAnim) {
+
+		coinRotateY += 2.0f;
+		if (coinYOffset >= 5.0f) {
+			coinUp = false;
+		}
+		else if (coinYOffset <= -0.0f) {
+			coinUp = true;
+		}
+
+		if (coinUp) {
+			coinYOffset += 0.1f;
+		}
+		else {
+			coinYOffset -= 0.1f;
+		}
+	}
+
+	if (animateCoins) {
+		animationProgress += deltaTime * animationSpeed * animationDirectionCoins;
+		if (animationProgress >= 1.0f and animationDirectionCoins == 1) {
+			animationProgress = 1.0f;
+			coinYOffset = 0.0f;
+		}
+
+		if (animationDirectionCoins == -1 && animationProgress <= 0.0f) {
+			animationProgress = 0.0f;
+		}
+	}
 	if (!AnimMario)
 		return;
 
-	// Actualiza el giro propio (siempre girando cuando shineRotate está true)
-	// Uso deltaTime para velocidad independientemente del frame rate.
 	if (shineRotate) {
 		shineSpinAngle += 45.0f;
 	}
