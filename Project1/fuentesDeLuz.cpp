@@ -360,6 +360,9 @@ int main()
 	
 	// Carga de modelos
 	Model Proyecto((char*)"models/proyecto.obj");
+	
+	
+	//Modelos de Mario
 	Model Shine((char*)"models/monedaMario.obj");
 	Model MarioBody((char*)"models/body_mario.obj");
 	Model HeadMario((char*)"models/head_mario.obj");
@@ -393,7 +396,7 @@ int main()
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 300.0f);
 
 
-	/*****GENERACIÓN DE LA POSICIÓN DE LUCES PUNTUALES PARA LAS PAREDES*****/
+	/*****GENERACIï¿½N DE LA POSICIï¿½N DE LUCES PUNTUALES PARA LAS PAREDES*****/
 
 	const int NUM_PIVOTS = sizeof(lightPivots) / sizeof(lightPivots[0]);
 	//posiciones de offset en Y para las luces de las paredes
@@ -413,19 +416,19 @@ int main()
 				pivot.z
 			);
 
-			// Almacena la posición final 
+			// Almacena la posiciï¿½n final 
 			pointLightPositions.push_back(finalPosition);
 		}
 	}
 
 
-	/*****GENERACIÓN DE LAS POSICIONES DE LUCES PUNTUALES PARA EL TECHO*****/
+	/*****GENERACIï¿½N DE LAS POSICIONES DE LUCES PUNTUALES PARA EL TECHO*****/
 	//posiciones de offset en Z para las luces del techo
 	float zOffsetsRoof[] = {
 		 0.0f, 5.0f, 10.0f, 20.0f, 25.0f, 30.0f, 35.0f, 40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 65.0f, -5.0f, -10.0f, -15.0f, -20.0f, -25.0f,
 		  -30.0f, -35.0f, -40.0f, -45.0f, -50.0f, -55.0f, -60.0f, -65.0f
 	};
-	// Calcular el número de offsets
+	// Calcular el nï¿½mero de offsets
 	const int NUM_Z_OFFSETS = sizeof(zOffsetsRoof) / sizeof(zOffsetsRoof[0]);
 
 	// Color de las luces del techo (morado)
@@ -451,7 +454,7 @@ int main()
 	}
 
 
-	// Calcula numLights a partir del vector después de que ha sido llenado
+	// Calcula numLights a partir del vector despuï¿½s de que ha sido llenado
 	const int numLights = pointLightPositions.size();
 
 	// Game loop
@@ -497,7 +500,7 @@ int main()
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.8f, 0.8f, 0.8f);
 
 
-		// Número de luces por cada pivote en las paredes
+		// Nï¿½mero de luces por cada pivote en las paredes
 		const int LIGHTS_PER_PIVOT = 18; 
 		int numColors = diffuseColors.size();
 		glm::vec3 currentDiffuseColor;
@@ -509,10 +512,10 @@ int main()
 			//Calcular el indice del pivote cada 18 puntos es un pivote
 			int pivotIndex = i / LIGHTS_PER_PIVOT;
 
-			// Calcular el índice del PAR de pivotes
+			// Calcular el ï¿½ndice del PAR de pivotes
 			int pairIndex = pivotIndex / 2;
 
-			// Seleccionar el color de la luz en base al número de luces creadas hasta el momento
+			// Seleccionar el color de la luz en base al nï¿½mero de luces creadas hasta el momento
 			// Si es mayor o igual a 216 se dibujan las luces del techo, usar color morado
 			// Si no, alternar entre los colores definidos para las paredes
 			if (i >= 216) {
@@ -524,7 +527,7 @@ int main()
 			}
 			
 
-			// Dar la posición de la luz y sus configuraciones
+			// Dar la posiciï¿½n de la luz y sus configuraciones
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".position").c_str()),
 				pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z);
 
@@ -585,9 +588,8 @@ int main()
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 	    Proyecto.Draw(lightingShader);
 
-
 		/*
-		* Dibujo del modelo del sol y movimiento apartir de la posición de mario
+		* Dibujo del modelo del sol y movimiento apartir de la posiciï¿½n de mario
 		*/
 		if (shineOrbitActive) {
 			model = glm::mat4(1.0f);
@@ -706,7 +708,7 @@ int main()
 		}
 
 
-		// Dibuja lámparas horizontales del techo
+		// Dibuja lï¿½mparas horizontales del techo
 		for (GLuint i = 0; i < NUM_PIVOTS_ROOF; i++)
 		{
 			model = glm::mat4(1);
