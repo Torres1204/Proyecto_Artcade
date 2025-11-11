@@ -249,11 +249,7 @@ int main()
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
 	Model Proyecto((char*)"models/proyecto.obj");
-	//Exterior
-	/*Model Pasto((char*)"models/pasto.obj");*/
-	/*Model Interior((char*)"models/interior.obj");*/
-	/*Model Retro((char*)"models/suelo_retro.obj");*/
-	/*Model Carretera((char*)"models/carretera_b.obj");*/
+	
 	
 	//Modelos de Mario
 	Model Shine((char*)"models/monedaMario.obj");
@@ -481,10 +477,6 @@ int main()
 
 		//esqueleto del proyecto
 	    Proyecto.Draw(lightingShader);
-
-		////Pasto
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//Carretera.Draw(lightingShader);
 
 		//sol
 		if (shineOrbitActive) {

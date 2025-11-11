@@ -1,4 +1,4 @@
-# Blender 4.5.4 LTS MTL File: 'proyecto.blend'
+# Blender 4.5.4 LTS MTL File: 'None'
 # www.blender.org
 
 newmtl 10446_Palm_Tree_v1
@@ -32,6 +32,133 @@ aniso 0.000000
 anisor 0.000000
 Tf 1.000000 1.000000 1.000000
 map_Kd 10446_Palm_Tree_v1_Diffuse.jpg
+
+newmtl Amarillo
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Plastic016B_4K-PNG_Color.png
+map_Pr Plastic016B_4K-PNG_Roughness.png
+
+newmtl Australian_Cattle_Dog
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Australian_Cattle_Dog_dif.jpg
+map_Bump Australian_Cattle_Dog_bump.jpg
+
+newmtl Australian_Cattle_Dog.001
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Australian_Cattle_Dog_dif.jpg
+map_Bump Australian_Cattle_Dog_bump.jpg
+
+newmtl Australian_Cattle_Dog.002
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Australian_Cattle_Dog_dif.jpg
+map_Bump Australian_Cattle_Dog_bump.jpg
+
+newmtl Australian_Cattle_Dog.003
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Australian_Cattle_Dog_dif.jpg
+map_Bump Australian_Cattle_Dog_bump.jpg
+
+newmtl Australian_Cattle_Dog.004
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Australian_Cattle_Dog_dif.jpg
+map_Bump Australian_Cattle_Dog_bump.jpg
+
+newmtl Australian_Cattle_Dog.005
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Australian_Cattle_Dog_dif.jpg
+map_Bump Australian_Cattle_Dog_bump.jpg
+
+newmtl Australian_Cattle_Dog.006
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Australian_Cattle_Dog_dif.jpg
+map_Bump Australian_Cattle_Dog_bump.jpg
 
 newmtl Chair_and_table
 Ks 0.500000 0.500000 0.500000
@@ -70,29 +197,14 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-Pr 0.500000
-Pm 0.000000
 Ps 0.000000
 Pc 0.000000
 Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
 map_Kd texturaBaseFuera.jpg
-
-newmtl Material.003
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-Pr 0.500000
-Pm 0.000000
-Ps 0.000000
-Pc 0.000000
-Pcr 0.030000
-aniso 0.000000
-anisor 0.000000
-map_Kd marmolTexture.jpg
+map_Pm MetalPlates005_4K-PNG_Metalness.png
+map_Pr MetalPlates005_4K-PNG_Roughness.png
 
 newmtl Material.004
 Ks 0.500000 0.500000 0.500000
@@ -289,21 +401,6 @@ aniso 0.000000
 anisor 0.000000
 map_Kd Viewtiful Joe - Obra.png
 
-newmtl Material.023
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-Ps 0.000000
-Pc 0.000000
-Pcr 0.030000
-aniso 0.000000
-anisor 0.000000
-map_Kd MetalPlates005_4K-PNG_Color.png
-map_Pm MetalPlates005_4K-PNG_Metalness.png
-map_Pr MetalPlates005_4K-PNG_Roughness.png
-
 newmtl Material.024
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
@@ -454,36 +551,6 @@ aniso 0.000000
 anisor 0.000000
 map_Kd texturaBaseFuera.jpg
 
-newmtl Material.035
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-Pm 0.000000
-Ps 0.000000
-Pc 0.000000
-Pcr 0.030000
-aniso 0.000000
-anisor 0.000000
-map_Kd Tiles106_8K-PNG_Color.png
-map_Pr Tiles106_8K-PNG_Roughness.png
-
-newmtl Material.036
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-Pm 0.000000
-Ps 0.000000
-Pc 0.000000
-Pcr 0.030000
-aniso 0.000000
-anisor 0.000000
-map_Kd Tiles029_8K-PNG_Color.png
-map_Pr Tiles029_8K-PNG_Roughness.png
-
 newmtl Material.037
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
@@ -589,6 +656,337 @@ aniso 0.000000
 anisor 0.000000
 map_Kd WhaamDescripcion.png
 
+newmtl Material.048
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd MetalPlates005_4K-PNG_Color.png
+map_Pm MetalPlates005_4K-PNG_Metalness.png
+map_Pr MetalPlates005_4K-PNG_Roughness.png
+
+newmtl Material.049
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd MetalPlates005_4K-PNG_Color.png
+map_Pm MetalPlates005_4K-PNG_Metalness.png
+map_Pr MetalPlates005_4K-PNG_Roughness.png
+
+newmtl Material.052
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.053
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.054
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.058
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.059
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.060
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.062
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.063
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.064
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.065
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.066
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.067
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric081B_4K-PNG_Color.png
+map_Pr Fabric081B_4K-PNG_Roughness.png
+
+newmtl Material.069
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Game_Controller_M_Controller_BaseColor.png
+map_Pm Game_Controller_M_Controller_Metallic.png
+map_Pr Game_Controller_M_Controller_Roughness.png
+map_Bump -bm 1.000000 Game_Controller_M_Controller_Normal.png
+
+newmtl Material.076
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd MetalPlates005_4K-PNG_Color.png
+map_Pm MetalPlates005_4K-PNG_Metalness.png
+map_Pr MetalPlates005_4K-PNG_Roughness.png
+
+newmtl Material.077
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd MetalPlates005_4K-PNG_Color.png
+map_Pm MetalPlates005_4K-PNG_Metalness.png
+map_Pr MetalPlates005_4K-PNG_Roughness.png
+
+newmtl Material.080
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Plastic015A_4K-PNG_Color.png
+map_Pr Plastic015A_4K-PNG_Roughness.png
+
+newmtl Material.081
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Plastic008_4K-PNG_Color.png
+map_Pr Plastic008_4K-PNG_Roughness.png
+
+newmtl Material.082
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Plastic007_4K-PNG_Color.png
+map_Pr Plastic007_4K-PNG_Roughness.png
+
+newmtl Material.084
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Leather036D_4K-PNG_Color.png
+map_Pr Leather036D_4K-PNG_Roughness.png
+
+newmtl Material.085
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric020_4K-PNG_Color.png
+map_Pr Fabric020_4K-PNG_Roughness.png
+map_d Fabric020_4K-PNG_Opacity.png
+
 newmtl None.002
 Ks 0.000000 0.000000 0.000000
 Ni 1.500000
@@ -604,7 +1002,7 @@ anisor 0.000000
 map_Kd Sci-Fi-Floor-Diffuse.tga
 map_Ke Sci-Fi-Floor-Emissive.tga
 
-newmtl interior
+newmtl Verde
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
@@ -616,23 +1014,8 @@ Pc 0.000000
 Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
-map_Kd Tiles133A_4K-PNG_Color.png
-map_Pr Tiles133A_4K-PNG_Roughness.png
-
-newmtl interior.002
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-Pr 0.500000
-Pm 0.000000
-Ps 0.000000
-Pc 0.000000
-Pcr 0.030000
-aniso 0.000000
-anisor 0.000000
-map_Kd texturaDentro.jpg
+map_Kd Plastic017A_4K-PNG_Color.png
+map_Pr Plastic017A_4K-PNG_Roughness.png
 
 newmtl luzTecho
 Ks 0.500000 0.500000 0.500000
@@ -663,6 +1046,22 @@ Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
 map_Kd luzMorada.png
+
+newmtl phong1SG
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+Pr 0.865836
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+Tf 1.000000 1.000000 1.000000
+map_Kd BarfandBelch_material.tga
 
 newmtl receptionTable
 Ks 0.500000 0.500000 0.500000
@@ -843,3 +1242,20 @@ Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
 map_Kd Material _49_Diffuse.png
+
+newmtl wire_177088027
+Ks 0.350000 0.350000 0.350000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.821115
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+Tf 1.000000 1.000000 1.000000
+map_Kd Plastic_4K_Diffuse.jpg
+map_Bump -bm 1.000000 Plastic_4K_Normal.jpg
