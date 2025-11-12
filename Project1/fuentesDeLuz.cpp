@@ -327,7 +327,7 @@ float tail = 0.0f;
 //KeyFrames
 float dogPosX = 230.0f;
 float dogPosY = -20.0f;
-float dogPosZ = 506.0f;
+float dogPosZ = 200.0f;
 
 #define MAX_FRAMES 100
 int i_max_steps = 190;
@@ -615,8 +615,8 @@ int main()
 		if (i == 0) 
 		{
 			KeyFrame[i].dogPosX = 230.0;
-			KeyFrame[i].dogPosY = 20.0;
-			KeyFrame[i].dogPosZ = -492.0;
+			KeyFrame[i].dogPosY = -20.0;
+			KeyFrame[i].dogPosZ = 200.0;
 		}
 		else
 		{
