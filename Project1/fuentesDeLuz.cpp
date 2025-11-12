@@ -133,7 +133,7 @@ glm::vec3 coinsPos[] = {
 	glm::vec3(-115.125f, 4.0f, 160.03f),
 	glm::vec3(-140.125f, 0.0, 340.03f),
 	glm::vec3(-210.125f, 6.0, 80.03f),
-	glm::vec3(-1.125f, 10.0f, 230.03f),
+	glm::vec3(-120.125f, 10.0f, 230.03f),
 	glm::vec3(-125.125f, 0.0f, 190.03f),
 	glm::vec3(-140.125f, -2.0f, 170.03f),
 	glm::vec3(-115.125f, -2.0f, 190.03f),
@@ -692,7 +692,7 @@ int main()
 
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
-	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 300.0f);
+	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 500.0f);
 
 
 	/*****GENERACION DE LA POSICION DE LUCES PUNTUALES PARA LAS PAREDES*****/
