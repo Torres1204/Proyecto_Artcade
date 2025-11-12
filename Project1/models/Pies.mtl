@@ -1,0 +1,13 @@
+# Blender 4.5.3 LTS MTL File: 'proyecto.blend'
+# www.blender.org
+
+newmtl avaturn_shoes_0_material
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd avaturn_shoes_0_base_color.jpg
+map_Ks avaturn_shoes_0_avaturn_shoes_0_roughness.png
+map_Ns avaturn_shoes_0_avaturn_shoes_0_metallic.png
+map_Bump -bm 1.000000 avaturn_shoes_0_normalmap.jpg

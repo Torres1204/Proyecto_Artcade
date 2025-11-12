@@ -299,6 +299,30 @@ bool shineOrbitActive = false;
 float shineSpinAngle = 1.0f;   
 
 
+//Variables para la animacion de la recepcionista
+glm::vec3 recepPos(0.0f, 0.0f, 0.0f);
+glm::mat4 recepModelTemp = glm::mat4(1.0f);
+float recepRot = 0.0f;
+// Animación por pieza
+float angCabeza = 0.0f;
+float angHombroDer = 0.0f;
+float angHombroIzq = 0.0f;
+float angAntebrazoDer = 0.0f;
+float angAntebrazoIzq = 0.0f;
+float angManoDer = 0.0f;
+float angManoIzq = 0.0f;
+float angPiernaDer = 0.0f;
+float angPiernaIzq = 0.0f;
+float angTibiaDer = 0.0f;
+float angTibiaIzq = 0.0f;
+float angPieDer = 0.0f;
+float angPieIzq = 0.0f;
+bool AnimRecep = false;
+int recepState = 0;        // estado de la animación
+float recepWalkDist = 0.0f;
+bool stepRecep = false;    // para animación de piernas
+
+
 int main()
 {
 	// Init GLFW
@@ -371,7 +395,23 @@ int main()
 	Model RightArm((char*)"models/R_arm_mario.obj");
 	Model LeftArm((char*)"models/L_arm_mario.obj");
 	Model Coin((char*)"models/coin.obj");
-
+	
+	//Modelo de Recepcionista
+	Model RecepcionistaCuerpo((char*)"models/Cuerpo.obj");
+	Model RecepcionistaCabeza((char*)"models/Cabeza.obj");
+	Model RecepcionistaHombroDerecho((char*)"models/HombroDer.obj");
+	Model RecepcionistaHombroIzquierdo((char*)"models/HombroIzq.obj");
+	Model RecepcionistaAntebrazoDerecho((char*)"models/AntebrazoDer.obj");
+	Model RecepcionistaAntebrazoIzquierdo((char*)"models/AntebrazoIzq.obj");
+	Model RecepcionistaManoDerecha((char*)"models/ManoDer.obj");
+	Model RecepcionistaManoIzquierda((char*)"models/ManoIzq.obj");
+	Model RecepcionistaPiernaDerecha((char*)"models/PiernaDer.obj");
+	Model RecepcionistaPiernaIzquierda((char*)"models/PiernaIzq.obj");
+	Model RecepcionistaTibiaDerecha((char*)"models/TibiaDer.obj");
+	Model RecepcionistaTibiaIzquierda((char*)"models/TibiaIzq.obj");
+	//Model RecepcionistaPies((char*)"models/Pies.obj");
+	Model RecepcionistaPieDerecho((char*)"models/PieDer.obj");
+	Model RecepcionistaPieIzquierdo((char*)"models/PieIzq.obj");
 
 
 	// First, set the container's VAO (and VBO)
@@ -659,6 +699,107 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		LeftLeg.Draw(lightingShader);
 
+
+		//Recepcionista
+		glm::mat4 recepModel = recepModelTemp;
+		recepModel = glm::translate(recepModel, recepPos);
+		recepModel = glm::rotate(recepModel, glm::radians(recepRot), glm::vec3(0, 1, 0));
+
+		// ---------- CUERPO ----------
+		model = recepModel;
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaCuerpo.Draw(lightingShader);
+
+		// ---------- CABEZA ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angCabeza), glm::vec3(0, 1, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaCabeza.Draw(lightingShader);
+
+		// ---------- HOMBRO DERECHO ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angHombroDer), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaHombroDerecho.Draw(lightingShader);
+
+		// ---------- ANTEBRAZO DERECHO ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angAntebrazoDer), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaAntebrazoDerecho.Draw(lightingShader);
+
+		// ---------- MANO DERECHA ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angManoDer), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaManoDerecha.Draw(lightingShader);
+
+		// ---------- HOMBRO IZQUIERDO ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angHombroIzq), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaHombroIzquierdo.Draw(lightingShader);
+
+		// ---------- ANTEBRAZO IZQUIERDO ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angAntebrazoIzq), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaAntebrazoIzquierdo.Draw(lightingShader);
+
+		// ---------- MANO IZQUIERDA ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angManoIzq), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaManoIzquierda.Draw(lightingShader);
+
+		// ---------- PIERNA DERECHA ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angPiernaDer), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaPiernaDerecha.Draw(lightingShader);
+
+		// ---------- TIBIA DERECHA ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angTibiaDer), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaTibiaDerecha.Draw(lightingShader);
+
+		// ---------- PIERNA IZQUIERDA ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angPiernaIzq), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaPiernaIzquierda.Draw(lightingShader);
+
+		// ---------- TIBIA IZQUIERDA ----------
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angTibiaIzq), glm::vec3(1, 0, 0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaTibiaIzquierda.Draw(lightingShader);
+
+		//// ---------- PIES ----------
+		//model = recepModel;
+		//model = glm::rotate(model, glm::radians(angPies), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaPies.Draw(lightingShader);
+
+		// PIE DERECHO
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angTibiaDer), glm::vec3(1, 0, 0)); // sigue a la tibia
+		model = glm::rotate(model, glm::radians(angPieDer), glm::vec3(1, 0, 0));   // movimiento propio del pie
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaPieDerecho.Draw(lightingShader);
+
+
+		// PIE IZQUIERDO
+		model = recepModel;
+		model = glm::rotate(model, glm::radians(angTibiaIzq), glm::vec3(1, 0, 0)); // sigue a la tibia
+		model = glm::rotate(model, glm::radians(angPieIzq), glm::vec3(1, 0, 0));   // movimiento propio del pie
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		RecepcionistaPieIzquierdo.Draw(lightingShader);
+
+
+		
+
 		//Dibujo de las monedas con animacion de subida y bajada
 		for (int i = 0; i < sizeof(coinsPos) / sizeof(coinsPos[0]); i++) {
 			glm::mat4 model = glm::mat4(1.0f);
@@ -831,6 +972,14 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		}
 	}
 
+	if (keys[GLFW_KEY_R])
+	{
+		AnimRecep = true;
+		recepState = 0;
+		recepWalkDist = 0.0f;
+	}
+
+
 	if (keys[GLFW_KEY_N])
 	{
 		AnimMario = !AnimMario;
@@ -872,6 +1021,129 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 
 void Animation()
 {
+	// ---------- ANIMACIÓN DE LA RECEPCIONISTA ----------
+	if (AnimRecep)
+	{
+		switch (recepState)
+		{
+			// 1. Giro hacia la izquierda 135°
+		case 0:
+			recepRot += 1.0f;
+			if (recepRot >= 135.0f) {
+				recepRot = 135.0f;
+				recepWalkDist = 0.0f;
+				recepState = 1;
+			}
+			break;
+
+			// 2. Camina 50 unidades
+		case 1:
+			recepPos.x += sin(glm::radians(recepRot)) * 0.05f;
+			recepPos.z -= cos(glm::radians(recepRot)) * 0.05f;
+			recepWalkDist += 0.05f;
+
+			// animación piernas
+			if (!stepRecep) {
+				angPiernaDer += 1.0f;
+				angTibiaDer += 1.0f;
+				angPiernaIzq -= 1.0f;
+				angTibiaIzq -= 1.0f;
+				if (angPiernaDer > 20.0f) stepRecep = true;
+			}
+			else {
+				angPiernaDer -= 1.0f;
+				angTibiaDer -= 1.0f;
+				angPiernaIzq += 1.0f;
+				angTibiaIzq += 1.0f;
+				if (angPiernaDer < -20.0f) stepRecep = false;
+			}
+
+			if (recepWalkDist >= 50.0f) {
+				recepWalkDist = 0.0f;
+				recepState = 2;
+			}
+			break;
+
+			// 3. Giro 90° a la derecha
+		case 2:
+			recepRot -= 1.0f;
+			if (recepRot <= 45.0f) { // 135 - 90 = 45
+				recepRot = 45.0f;
+				recepWalkDist = 0.0f;
+				recepState = 3;
+			}
+			break;
+
+			// 4. Camina 40 unidades
+		case 3:
+			recepPos.x += sin(glm::radians(recepRot)) * 0.05f;
+			recepPos.z -= cos(glm::radians(recepRot)) * 0.05f;
+			recepWalkDist += 0.05f;
+
+			if (!stepRecep) {
+				angPiernaDer += 1.0f;
+				angTibiaDer += 1.0f;
+				angPiernaIzq -= 1.0f;
+				angTibiaIzq -= 1.0f;
+				if (angPiernaDer > 20.0f) stepRecep = true;
+			}
+			else {
+				angPiernaDer -= 1.0f;
+				angTibiaDer -= 1.0f;
+				angPiernaIzq += 1.0f;
+				angTibiaIzq += 1.0f;
+				if (angPiernaDer < -20.0f) stepRecep = false;
+			}
+
+			if (recepWalkDist >= 40.0f) {
+				recepWalkDist = 0.0f;
+				recepState = 4;
+			}
+			break;
+
+			// 5. Giro 90° derecha otra vez
+		case 4:
+			recepRot -= 1.0f;
+			if (recepRot <= -45.0f) {  // 45 - 90 = -45
+				recepRot = -45.0f;
+				recepWalkDist = 0.0f;
+				recepState = 5;
+			}
+			break;
+
+			// 6. Camina 150 unidades
+		case 5:
+			recepPos.x += sin(glm::radians(recepRot)) * 0.05f;
+			recepPos.z -= cos(glm::radians(recepRot)) * 0.05f;
+			recepWalkDist += 0.05f;
+
+			if (!stepRecep) {
+				angPiernaDer += 1.0f;
+				angTibiaDer += 1.0f;
+				angPiernaIzq -= 1.0f;
+				angTibiaIzq -= 1.0f;
+				if (angPiernaDer > 20.0f) stepRecep = true;
+			}
+			else {
+				angPiernaDer -= 1.0f;
+				angTibiaDer -= 1.0f;
+				angPiernaIzq += 1.0f;
+				angTibiaIzq += 1.0f;
+				if (angPiernaDer < -20.0f) stepRecep = false;
+			}
+
+			if (recepWalkDist >= 150.0f) {
+				recepState = 6; // Termina
+			}
+			break;
+
+			// Animación terminada
+		case 6:
+			break;
+		}
+	}
+
+
 
 	//animacion de las monedas subida y bajada
 	if (coinAnim) {

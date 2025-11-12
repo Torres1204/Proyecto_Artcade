@@ -1,0 +1,35 @@
+# Blender 4.5.3 LTS MTL File: 'proyecto.blend'
+# www.blender.org
+
+newmtl Eyes
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd eyes_base_color.jpg
+map_Ks eyes_eye_mesh.001_roughness.png
+map_Ns eyes_eye_mesh.001_metallic.png
+map_Bump -bm 1.000000 eyes_normalmap.png
+
+newmtl Head
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd head_base_color.jpg
+map_Ks head_head_mesh.001_roughness.png
+map_Ns head_head_mesh.001_metallic.png
+map_d head_base_color.jpg
+map_Bump -bm 1.000000 head_normalmap.jpg
+
+newmtl avaturn_hair_1_material
+Ka 0.190909 0.190909 0.190909
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd avaturn_hair_1_base_color.png
+map_Ks model.fbm
+map_Ns model.fbm
+map_d avaturn_hair_1_base_color.png
+map_Bump -bm 1.000000 avaturn_hair_1_normalmap.jpg
