@@ -64,22 +64,23 @@ map_Pm Chair and table_Metallic.png
 map_Pr Chair and table_Roughness.png
 map_Bump -bm 1.000000 Chair and table_Normal.png
 
-newmtl Material.001
-Ks 0.500000 0.500000 0.500000
+newmtl Color_maquina
+Ks 0.350000 0.350000 0.350000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
-illum 2
-Pr 0.500000
-Pm 0.000000
+illum 3
 Ps 0.000000
 Pc 0.000000
 Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
-map_Kd popArt.jpg
+Tf 1.000000 1.000000 1.000000
+map_Kd Metal028_4K-PNG_Color.png
+map_Pm Metal028_4K-PNG_Metalness.png
+map_Pr Metal028_4K-PNG_Roughness.png
 
-newmtl Material.002
+newmtl Material.003
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
@@ -112,7 +113,7 @@ map_Kd luzAzul.png
 newmtl Material.005
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.500000
+Ni 1.450000
 d 1.000000
 illum 2
 Pr 0.500000
@@ -122,7 +123,7 @@ Pc 0.000000
 Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
-map_Kd Comic Jumper - Obra.png
+map_Kd popArt.jpg
 
 newmtl Material.006
 Ks 0.500000 0.500000 0.500000
@@ -137,7 +138,7 @@ Pc 0.000000
 Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
-map_Kd Campbell'sSoupCans.jpg
+map_Kd Comic Jumper - Obra.png
 
 newmtl Material.007
 Ks 0.500000 0.500000 0.500000
@@ -169,6 +170,36 @@ aniso 0.000000
 anisor 0.000000
 map_Kd luzAzul.png
 
+newmtl Material.009
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Campbell'sSoupCans.jpg
+
+newmtl Material.010
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd AM_Logo.png
+
 newmtl Material.011
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
@@ -198,6 +229,21 @@ Pcr 0.030000
 aniso 0.000000
 anisor 0.000000
 map_Kd Comic Jumper - Descripcion.jpg
+
+newmtl Material.013
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd AM_Screen.jpg
 
 newmtl Material.015
 Ks 0.500000 0.500000 0.500000
