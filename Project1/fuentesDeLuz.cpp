@@ -31,6 +31,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
 void DoMovement();
 void Animation();
+void cargaFrames(string filename);
 
 // Window dimensions
 const GLuint WIDTH = 1000, HEIGHT = 800;
@@ -299,6 +300,130 @@ float shineOrbitAngle = 0.0f;
 bool shineOrbitActive = false;    
 float shineSpinAngle = 1.0f;   
 
+/*
+* Variables para la animacion del perro
+* rotDog  : Rotación del perro (0-360°)
+  • dogPosX : Posición en X
+  • dogPosY : Posición en Y (altura)
+  • dogPosZ : Posición en Z (avance)
+  • head    : Rotación cabeza
+  • FDLegs  : Pierna Frontal Derecha
+  • FILegs  : Pierna Frontal Izquierda
+  • TDLegs  : Pierna Trasera Derecha
+  • TILegs  : Pierna Trasera Izquierda
+  • body    : Rotación del cuerpo
+  • tail    : Rotación de la cola
+*/
+float rotDog = 180.0f;
+int dogAnim = 0;
+float FDLegs = 0.0f;
+float FILegs = 0.0f;
+float TDLegs = 0.0f;
+float TILegs = 0.0f;
+float head = 0.0f;
+float body = 0.0f;
+float tail = 0.0f;
+
+//KeyFrames
+float dogPosX = 230.0f;
+float dogPosY = -20.0f;
+float dogPosZ = 506.0f;
+
+#define MAX_FRAMES 100
+int i_max_steps = 190;
+int i_curr_steps = 0;
+
+typedef struct _frame {
+
+	float rotDog;
+	float rotDogInc;
+	float dogPosX;
+	float dogPosY;
+	float dogPosZ;
+	float incX;
+	float incY;
+	float incZ;
+	float FDLegs;
+	float FDLegsInc;
+	float FILegs;
+	float FILegsInc;
+	float TDLegs;
+	float TDLegsInc;
+	float TILegs;
+	float TILegsInc;
+	float head;
+	float headInc;
+	float body;
+	float bodyInc;
+	float tail;
+	float tailInc;
+
+
+}FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 0;			//introducir datos
+bool play = false;
+int playIndex = 0;
+
+void saveFrame(void)
+{
+
+	printf("frameindex %d\n", FrameIndex);
+
+	KeyFrame[FrameIndex].dogPosX = dogPosX;
+	KeyFrame[FrameIndex].dogPosY = dogPosY;
+	KeyFrame[FrameIndex].dogPosZ = dogPosZ;
+
+	KeyFrame[FrameIndex].rotDog = rotDog;
+	KeyFrame[FrameIndex].head = head;
+
+	KeyFrame[FrameIndex].FDLegs = FDLegs;
+	KeyFrame[FrameIndex].FILegs = FILegs;
+	KeyFrame[FrameIndex].TDLegs = TDLegs;
+	KeyFrame[FrameIndex].TILegs = TILegs;
+	KeyFrame[FrameIndex].body = body;
+	KeyFrame[FrameIndex].tail = tail;
+
+
+	FrameIndex++;
+}
+
+void resetElements(void)
+{
+	dogPosX = KeyFrame[0].dogPosX;
+	dogPosY = KeyFrame[0].dogPosY;
+	dogPosZ = KeyFrame[0].dogPosZ;
+	head = KeyFrame[0].head;
+
+	rotDog = KeyFrame[0].rotDog;
+
+	FDLegs = KeyFrame[0].FDLegs;
+	FILegs = KeyFrame[0].FILegs;
+	TDLegs = KeyFrame[0].TDLegs;
+	TILegs = KeyFrame[0].TILegs;
+	body = KeyFrame[0].body;
+	tail = KeyFrame[0].tail;
+
+}
+void interpolation(void)
+{
+
+	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].dogPosX - KeyFrame[playIndex].dogPosX) / i_max_steps;
+	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].dogPosY - KeyFrame[playIndex].dogPosY) / i_max_steps;
+	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].dogPosZ - KeyFrame[playIndex].dogPosZ) / i_max_steps;
+	KeyFrame[playIndex].headInc = (KeyFrame[playIndex + 1].head - KeyFrame[playIndex].head) / i_max_steps;
+
+	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
+
+	KeyFrame[playIndex].FDLegsInc = (KeyFrame[playIndex + 1].FDLegs - KeyFrame[playIndex].FDLegs) / i_max_steps;
+	KeyFrame[playIndex].FILegsInc = (KeyFrame[playIndex + 1].FILegs - KeyFrame[playIndex].FILegs) / i_max_steps;
+	KeyFrame[playIndex].TDLegsInc = (KeyFrame[playIndex + 1].TDLegs - KeyFrame[playIndex].TDLegs) / i_max_steps;
+	KeyFrame[playIndex].TILegsInc = (KeyFrame[playIndex + 1].TILegs - KeyFrame[playIndex].TILegs) / i_max_steps;
+	KeyFrame[playIndex].bodyInc = (KeyFrame[playIndex + 1].body - KeyFrame[playIndex].body) / i_max_steps;
+	KeyFrame[playIndex].tailInc = (KeyFrame[playIndex + 1].tail - KeyFrame[playIndex].tail) / i_max_steps;
+}
+
 
 int main()
 {
@@ -434,6 +559,51 @@ int main()
 	};
 
 
+	//Modelos de Perro
+	Model DogBody((char*)"models/PerroTorso.obj");
+	Model HeadDog((char*)"models/PerroCabeza.obj");
+	Model DogTail((char*)"models/Cola.obj");
+	Model F_RightLeg((char*)"models/PataFroder.obj");
+	Model F_LeftLeg((char*)"models/PataFroizq.obj");
+	Model B_RightLeg((char*)"models/PataTrader.obj");
+	Model B_LeftLeg((char*)"models/PataTraizq.obj");
+
+	//KeyFrames
+	for (int i = 0; i < MAX_FRAMES; i++)
+	{
+		if (i == 0) 
+		{
+			KeyFrame[i].dogPosX = 230.0;
+			KeyFrame[i].dogPosY = 20.0;
+			KeyFrame[i].dogPosZ = -492.0;
+		}
+		else
+		{
+			KeyFrame[i].dogPosX = 0;
+			KeyFrame[i].dogPosY = 0;
+			KeyFrame[i].dogPosZ = 0;
+		}
+		
+		KeyFrame[i].incX = 0;
+		KeyFrame[i].incY = 0;
+		KeyFrame[i].incZ = 0;
+		KeyFrame[i].rotDog = 0;
+		KeyFrame[i].rotDogInc = 0;
+		KeyFrame[i].head = 0;
+		KeyFrame[i].headInc = 0;
+		KeyFrame[i].FDLegs = 0;
+		KeyFrame[i].FDLegsInc = 0;
+		KeyFrame[i].FILegs = 0;
+		KeyFrame[i].FILegsInc = 0;
+		KeyFrame[i].TDLegs = 0;
+		KeyFrame[i].TDLegsInc = 0;
+		KeyFrame[i].TILegs = 0;
+		KeyFrame[i].TILegsInc = 0;
+		KeyFrame[i].body = 0;
+		KeyFrame[i].bodyInc = 0;
+		KeyFrame[i].tail = 0;
+		KeyFrame[i].tailInc = 0;
+	}
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO, EBO;
@@ -484,7 +654,7 @@ int main()
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 300.0f);
 
 
-	/*****GENERACI�N DE LA POSICI�N DE LUCES PUNTUALES PARA LAS PAREDES*****/
+	/*****GENERACION DE LA POSICION DE LUCES PUNTUALES PARA LAS PAREDES*****/
 
 	const int NUM_PIVOTS = sizeof(lightPivots) / sizeof(lightPivots[0]);
 	//posiciones de offset en Y para las luces de las paredes
@@ -566,9 +736,7 @@ int main()
 		// OpenGL options
 		glEnable(GL_DEPTH_TEST);
 
-
-
-		//Load Model
+		glm::mat4 modelTemp = glm::mat4(1.0f); //Temp
 
 
 		// Use cooresponding shader when setting uniforms/drawing objects
@@ -588,7 +756,7 @@ int main()
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.8f, 0.8f, 0.8f);
 
 
-		// N�mero de luces por cada pivote en las paredes
+		// Numero de luces por cada pivote en las paredes
 		const int LIGHTS_PER_PIVOT = 18; 
 		int numColors = diffuseColors.size();
 		glm::vec3 currentDiffuseColor;
@@ -615,7 +783,7 @@ int main()
 			}
 			
 
-			// Dar la posici�n de la luz y sus configuraciones
+			// Dar la posicion de la luz y sus configuraciones
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".position").c_str()),
 				pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z);
 
@@ -670,14 +838,14 @@ int main()
 		//Dibujo de modelo del escenario
         view = camera.GetViewMatrix();	
 		model = glm::mat4(1);
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glEnable(GL_BLEND);//Activa la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 	    Proyecto.Draw(lightingShader);
 
 		/*
-		* Dibujo del modelo del sol y movimiento apartir de la posici�n de mario
+		* Dibujo del modelo del sol y movimiento apartir de la posicion de mario
 		*/
 		if (shineOrbitActive) {
 			model = glm::mat4(1.0f);
@@ -765,6 +933,74 @@ int main()
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			Coin.Draw(lightingShader);
 		}
+
+		/*
+		* Dibujo del modelo del Perro dividido en partes por jerarquia
+		*/
+
+		//static int frameCount = 0;
+		//if (frameCount % 60 == 0) {  // Imprimir cada 60 frames
+		//	printf("DEBUG PERRO - X: %.2f, Y: %.2f, Z: %.2f\n", dogPosX, dogPosY, dogPosZ);
+		//}
+		//frameCount++;
+
+		model = glm::mat4(1);
+		
+		// Aplicar transformaciones base
+		model = glm::translate(model, glm::vec3(dogPosX, dogPosY, dogPosZ));
+		model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.913f, 3.095f, 3.159f));
+
+		// GUARDAR modelTemp DESPUÉS de aplicar escala
+		modelTemp = model;
+
+		//Body
+		model = modelTemp;
+		model = glm::rotate(model, glm::radians(body), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		DogBody.Draw(lightingShader);
+
+		//Head
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(head), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		HeadDog.Draw(lightingShader);
+
+		//Tail 
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(tail), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		DogTail.Draw(lightingShader);
+
+		//Front Left Leg
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(FILegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		F_LeftLeg.Draw(lightingShader);
+
+		//Front Right Leg
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(FDLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		F_RightLeg.Draw(lightingShader);
+
+		//Back Left Leg
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(TILegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		B_LeftLeg.Draw(lightingShader);
+
+		//Back Right Leg
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(TDLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		B_RightLeg.Draw(lightingShader);
 
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
@@ -901,6 +1137,56 @@ void DoMovement()
 	{
 		pointLightPositions[0].z += 0.01f;
 	}
+
+	if (keys[GLFW_KEY_1])
+	{
+		dogPosZ += 1.0;
+	}
+
+	if (keys[GLFW_KEY_2])
+	{
+		dogPosZ -= 1.0;
+	}
+
+	if (keys[GLFW_KEY_3])
+	{
+		dogPosX -= 1.0;
+	}
+
+	if (keys[GLFW_KEY_4])
+	{
+		dogPosX += 1.0;
+	}
+
+	if (keys[GLFW_KEY_5])
+	{
+		dogPosY += 1.0;
+	}
+
+	if (keys[GLFW_KEY_6])
+	{
+		dogPosY -= 1.0;
+	}
+
+	if (keys[GLFW_KEY_7])
+	{
+		rotDog += 1.0f;
+	}
+
+	if (keys[GLFW_KEY_8])
+	{
+		rotDog -= 1.0f;
+	}
+
+	if (keys[GLFW_KEY_9])
+	{
+		printf("===== POSICION DEL PERRO =====\n");
+		printf("X = %.2f\n", dogPosX);
+		printf("Y = %.2f\n", dogPosY);
+		printf("Z = %.2f\n", dogPosZ);
+		printf("rotDog = %.2f\n", rotDog);
+		printf("==============================\n");
+	}
 	
 }
 
@@ -954,6 +1240,72 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		animateCoins = true;
 		animationDirectionCoins = -1;
 	}
+
+	if (keys[GLFW_KEY_P])
+	{
+		std::cout << "\n******************************************" << std::endl;
+		std::cout << "TECLA P PRESIONADA" << std::endl;
+		std::cout << "******************************************" << std::endl;
+
+		//reinicio de los valores de los keyframes
+		std::cout << "Limpiando keyframes anteriores..." << std::endl;
+		for (int i = 0; i < MAX_FRAMES; i++)
+		{
+			KeyFrame[i].dogPosX = 0;
+			KeyFrame[i].dogPosY = 0;
+			KeyFrame[i].dogPosZ = 0;
+			KeyFrame[i].incX = 0;
+			KeyFrame[i].incY = 0;
+			KeyFrame[i].incZ = 0;
+			KeyFrame[i].rotDog = 0;
+			KeyFrame[i].rotDogInc = 0;
+			KeyFrame[i].head = 0;
+			KeyFrame[i].headInc = 0;
+			KeyFrame[i].FDLegs = 0;
+			KeyFrame[i].FDLegsInc = 0;
+			KeyFrame[i].FILegs = 0;
+			KeyFrame[i].FILegsInc = 0;
+			KeyFrame[i].TDLegs = 0;
+			KeyFrame[i].TDLegsInc = 0;
+			KeyFrame[i].TILegs = 0;
+			KeyFrame[i].TILegsInc = 0;
+			KeyFrame[i].body = 0;
+			KeyFrame[i].bodyInc = 0;
+			KeyFrame[i].tail = 0;
+			KeyFrame[i].tailInc = 0;
+		}
+		std::cout << "Keyframes limpiados correctamente" << std::endl;
+
+		//carga de valores desde el archivo
+		cargaFrames("frames.txt");
+
+		//inicio de la animacion
+		if (play == false && (FrameIndex > 1))
+		{
+			std::cout << "\n******************************************" << std::endl;
+			std::cout << "INICIANDO ANIMACION" << std::endl;
+			std::cout << "******************************************" << std::endl;
+			std::cout << "Frames cargados: " << FrameIndex << std::endl;
+			std::cout << "Posicion inicial: (" << KeyFrame[0].dogPosX << ", "
+				<< KeyFrame[0].dogPosY << ", " << KeyFrame[0].dogPosZ << ")" << std::endl;
+			std::cout << "Posicion final: (" << KeyFrame[FrameIndex - 1].dogPosX << ", "
+				<< KeyFrame[FrameIndex - 1].dogPosY << ", " << KeyFrame[FrameIndex - 1].dogPosZ << ")" << std::endl;
+			std::cout << "******************************************\n" << std::endl;
+
+			resetElements();
+			//First Interpolation				
+			interpolation();
+
+			play = true;
+			playIndex = 0;
+			i_curr_steps = 0;
+		}
+		else
+		{
+			play = false;
+		}
+
+	}
 }
 
 void MouseCallback(GLFWwindow *window, double xPos, double yPos)
@@ -978,6 +1330,43 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 
 void Animation()
 {
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //end of animation between frames?
+		{
+			playIndex++;
+			if (playIndex > FrameIndex - 2)	//end of total animation?
+			{
+				printf("termina anim\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Next frame interpolations
+			{
+				i_curr_steps = 0; //Reset counter
+				//Interpolation
+				interpolation();
+			}
+		}
+		else
+		{
+			//Draw animation
+			dogPosX += KeyFrame[playIndex].incX;
+			dogPosY += KeyFrame[playIndex].incY;
+			dogPosZ += KeyFrame[playIndex].incZ;
+
+			rotDog += KeyFrame[playIndex].rotDogInc;
+			head += KeyFrame[playIndex].headInc;
+			FDLegs += KeyFrame[playIndex].FDLegsInc;
+			FILegs += KeyFrame[playIndex].FILegsInc;
+			TDLegs += KeyFrame[playIndex].TDLegsInc;
+			TILegs += KeyFrame[playIndex].TILegsInc;
+			body += KeyFrame[playIndex].bodyInc;
+			tail += KeyFrame[playIndex].tailInc;
+			i_curr_steps++;
+		}
+
+	}
 
 	//animacion de las monedas subida y bajada
 	if (coinAnim) {
@@ -1014,9 +1403,6 @@ void Animation()
 			animationProgress = 0.0f;
 		}
 	}
-
-	
-
 
 	if (!AnimMario)
 		return;
@@ -1077,4 +1463,105 @@ void Animation()
 	default:
 		break;
 	}
+	
+}
+
+void cargaFrames(string filename)
+{
+	//reinicio de los elementos de la animación
+	resetElements();
+	playIndex = 0;
+	i_curr_steps = 0;
+	FrameIndex = 0;
+
+	//abrimos el archivo
+	std::ifstream file(filename);
+	//verificamos que se haya abierto correctamente
+	if (!file.is_open()) {
+		std::cout << "No se pudo abrir el archivo de frames: " << filename << std::endl;
+		return;
+	}
+
+	std::cout << "Archivo abierto correctamente " << std::endl;
+
+
+	//variables para la lectura
+	std::string line;
+	int lineNumber = 0;
+
+	//mientras haya líneas en el archivo
+	while (std::getline(file, line))
+	{
+		lineNumber++;
+
+		if (line.empty()) continue;
+
+		// Omitir comentarios
+		if (line[0] == '#') continue;
+		if (line.size() >= 2 && line[0] == '/' && line[1] == '/') continue;
+
+		// Limpiar el frame actual antes de asignar (evita "basura" previa)
+		KeyFrame[FrameIndex].rotDog = 0.0f;
+		KeyFrame[FrameIndex].dogPosX = 0.0f;
+		KeyFrame[FrameIndex].dogPosY = 0.0f;
+		KeyFrame[FrameIndex].dogPosZ = 0.0f;
+		KeyFrame[FrameIndex].head = 0.0f;
+		KeyFrame[FrameIndex].FDLegs = 0.0f;
+		KeyFrame[FrameIndex].FILegs = 0.0f;
+		KeyFrame[FrameIndex].TDLegs = 0.0f;
+		KeyFrame[FrameIndex].TILegs = 0.0f;
+		KeyFrame[FrameIndex].body = 0.0f;
+		KeyFrame[FrameIndex].tail = 0.0f;
+
+		/*
+		* separamos la linea en tokens clave-valor
+		*/
+		std::istringstream token(line);
+		std::string key;
+		char equal;
+		float value;
+
+		/*
+		Asignar los valores de la línea al keyframe actual
+		*/
+		while (token >> key >> equal >> value)
+		{
+			if (key == "rotDog") KeyFrame[FrameIndex].rotDog = value;
+			else if (key == "dogPosX") KeyFrame[FrameIndex].dogPosX = value;
+			else if (key == "dogPosY") KeyFrame[FrameIndex].dogPosY = value;
+			else if (key == "dogPosZ") KeyFrame[FrameIndex].dogPosZ = value;
+			else if (key == "head") KeyFrame[FrameIndex].head = value;
+			else if (key == "FDLegs") KeyFrame[FrameIndex].FDLegs = value;
+			else if (key == "FILegs") KeyFrame[FrameIndex].FILegs = value;
+			else if (key == "TDLegs") KeyFrame[FrameIndex].TDLegs = value;
+			else if (key == "TILegs") KeyFrame[FrameIndex].TILegs = value;
+			else if (key == "body") KeyFrame[FrameIndex].body = value;
+			else if (key == "tail") KeyFrame[FrameIndex].tail = value;
+		}
+
+		//Mostrar el frame cargado
+		std::cout << "Frame #" << FrameIndex << " (Linea " << lineNumber << "):" << std::endl;
+		std::cout << "  Posicion: (" << KeyFrame[FrameIndex].dogPosX << ", "
+			<< KeyFrame[FrameIndex].dogPosY << ", "
+			<< KeyFrame[FrameIndex].dogPosZ << ")" << std::endl;
+		std::cout << "  Rotacion: " << KeyFrame[FrameIndex].rotDog << std::endl;
+		std::cout << "  Cabeza: " << KeyFrame[FrameIndex].head << " | Cola: "
+			<< KeyFrame[FrameIndex].tail << std::endl;
+		std::cout << "  Patas F: [D:" << KeyFrame[FrameIndex].FDLegs << " I:"
+			<< KeyFrame[FrameIndex].FILegs << "]" << std::endl;
+		std::cout << "  Patas T: [D:" << KeyFrame[FrameIndex].TDLegs << " I:"
+			<< KeyFrame[FrameIndex].TILegs << "]" << std::endl;
+		std::cout << std::endl;
+		//incrementamos el índice del frame
+		FrameIndex++;
+	}
+
+	file.close();
+
+	std::cout << "========================================" << std::endl;
+	std::cout << "CARGA COMPLETADA" << std::endl;
+	std::cout << "Total de frames cargados: " << FrameIndex << std::endl;
+	std::cout << "Frames validos para animacion: " << (FrameIndex > 1 ? FrameIndex - 1 : 0) << " transiciones" << std::endl;
+	std::cout << "Pasos por transicion: " << i_max_steps << std::endl;
+	std::cout << "========================================\n" << std::endl;
 }
