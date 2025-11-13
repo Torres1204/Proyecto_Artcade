@@ -326,7 +326,7 @@ float tail = 0.0f;
 //KeyFrames
 float dogPosX = 230.0f;
 float dogPosY = -20.0f;
-float dogPosZ = 200.0f;
+float dogPosZ = 100.0f;
 
 #define MAX_FRAMES 100
 int i_max_steps = 190;
@@ -498,13 +498,13 @@ int main()
 	Model Coin((char*)"models/coin.obj");
 
 	//Modelos de Perro
-	Model DogBody((char*)"models/PerroTorso.obj");
-	Model HeadDog((char*)"models/PerroCabeza.obj");
-	Model DogTail((char*)"models/Cola.obj");
-	Model F_RightLeg((char*)"models/PataFroder.obj");
-	Model F_LeftLeg((char*)"models/PataFroizq.obj");
-	Model B_RightLeg((char*)"models/PataTrader.obj");
-	Model B_LeftLeg((char*)"models/PataTraizq.obj");
+	Model DogBody((char*)"models/perro_cuerpo.obj");
+	Model HeadDog((char*)"models/perro_cabeza.obj");
+	Model DogTail((char*)"models/perro_cola.obj");
+	Model F_RightLeg((char*)"models/perro_pfd.obj");
+	Model F_LeftLeg((char*)"models/perro_pfi.obj");
+	Model B_RightLeg((char*)"models/perro_ptd.obj");
+	Model B_LeftLeg((char*)"models/perro_pti.obj");
 
 	//KeyFrames
 	for (int i = 0; i < MAX_FRAMES; i++)
@@ -513,7 +513,7 @@ int main()
 		{
 			KeyFrame[i].dogPosX = 230.0;
 			KeyFrame[i].dogPosY = -20.0;
-			KeyFrame[i].dogPosZ = 200.0;
+			KeyFrame[i].dogPosZ = 100.0;
 		}
 		else
 		{
