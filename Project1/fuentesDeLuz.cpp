@@ -426,7 +426,7 @@ void interpolation(void)
 
 
 //Variables para la animacion de la recepcionista
-glm::vec3 recepPos(0.0f, 0.0f, 0.0f);
+glm::vec3 recepPos(-100.0f, 4.0f, 45.0f);
 glm::mat4 recepModelTemp = glm::mat4(1.0f);
 float recepRot = 0.0f;
 // Animación por pieza
@@ -447,6 +447,18 @@ bool AnimRecep = false;
 int recepState = 0;        // estado de la animación
 float recepWalkDist = 0.0f;
 bool stepRecep = false;    // para animación de piernas
+////// --- CONSTANTES DE PIVOTES Y OFFSETS PARA LA RECEPCIONISTA (GLM: X, Y(Altura), Z(Profundidad)) ---
+//const glm::vec3 PIVOTE_HOMBRO_DER(0.0f, 0.0f, 0.0f);
+//const glm::vec3 PIVOTE_HOMBRO_IZQ(0.0f, 0.0f, 0.0f);
+//// OFFSETS DE LONGITUD (DISTANCIA ENTRE PIVOTES)
+//// --- Longitudes de los Segmentos (Offsets en Cero) ---
+//// Brazo Derecho
+//const glm::vec3 OFFSET_BRAZO_A_ANTEBRAZO_DER(0.0f, 0.0f, 0.0f); // Hombro -> Codo
+//const glm::vec3 OFFSET_ANTEBRAZO_A_MANO_DER(0.0f, 0.0f, 0.0f);  // Codo -> Muñeca
+//// Brazo Izquierdo
+//const glm::vec3 OFFSET_BRAZO_A_ANTEBRAZO_IZQ(0.0f, 0.0f, 0.0f); // Hombro -> Codo
+//const glm::vec3 OFFSET_ANTEBRAZO_A_MANO_IZQ(0.0f, 0.0f, 0.0f);  // Codo -> Muñeca
+//// --- FIN CONSTANTES ---
 
 
 int main()
@@ -958,7 +970,7 @@ int main()
 
 
 		//Recepcionista
-		glm::mat4 recepModel = recepModelTemp;
+		glm::mat4 recepModel = glm::mat4(1.0f);
 		recepModel = glm::translate(recepModel, recepPos);
 		recepModel = glm::rotate(recepModel, glm::radians(recepRot), glm::vec3(0, 1, 0));
 
@@ -1053,6 +1065,137 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		RecepcionistaPieIzquierdo.Draw(lightingShader);
 
+		//Recepcionista
+		//glm::mat4 recepModel = glm::mat4(1.0f);
+		//recepModel = glm::translate(recepModel, recepPos);
+		//recepModel = glm::rotate(recepModel, glm::radians(recepRot), glm::vec3(0, 1, 0));
+		//glm::mat4 recepBaseModel = recepModel; // *** NOMBRE CAMBIADO A recepBaseModel ***
+
+		//// ---------- CUERPO ----------
+		//model = recepBaseModel;
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaCuerpo.Draw(lightingShader);
+
+		//// ---------- CABEZA ----------
+		//model = recepBaseModel;
+		//model = glm::rotate(model, glm::radians(angCabeza), glm::vec3(0, 1, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaCabeza.Draw(lightingShader);
+
+		//// =================================================================
+		////                    BRAZO DERECHO (CORREGIDO)
+		//// =================================================================
+		//glm::mat4 modelBrazoDerBase = recepBaseModel;
+		//// 1. TRASLADA del cuerpo al pivote del hombro
+		//modelBrazoDerBase = glm::translate(modelBrazoDerBase, PIVOTE_HOMBRO_DER);
+
+
+		//// HOMBRO DERECHO
+		//model = modelBrazoDerBase;
+		//model = glm::rotate(model, glm::radians(angHombroDer), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaHombroDerecho.Draw(lightingShader);
+		//glm::mat4 modelHombroDer_Final = model;
+
+
+		//// ANTEBRAZO DERECHO
+		//model = modelHombroDer_Final;
+		//// 2. TRASLADA del hombro al codo (aplica longitud del brazo con offset)
+		//model = glm::translate(model, OFFSET_BRAZO_A_ANTEBRAZO_DER);
+		//model = glm::rotate(model, glm::radians(angAntebrazoDer), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaAntebrazoDerecho.Draw(lightingShader);
+		//glm::mat4 modelAntebrazoDer_Final = model;
+
+
+		//// MANO DERECHA
+		//model = modelAntebrazoDer_Final;
+		//// 3. TRASLADA del codo a la muñeca (aplica longitud del antebrazo con offset)
+		//model = glm::translate(model, OFFSET_ANTEBRAZO_A_MANO_DER);
+		//model = glm::rotate(model, glm::radians(angManoDer), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaManoDerecha.Draw(lightingShader);
+
+
+		//// =================================================================
+		////                     BRAZO IZQUIERDO (CORREGIDO)
+		//// =================================================================
+		//glm::mat4 modelBrazoIzqBase = recepBaseModel;
+		//// 1. TRASLADA del cuerpo al pivote del hombro
+		//modelBrazoIzqBase = glm::translate(modelBrazoIzqBase, PIVOTE_HOMBRO_IZQ);
+
+		//// HOMBRO IZQUIERDO
+		//model = modelBrazoIzqBase;
+		//model = glm::rotate(model, glm::radians(angHombroIzq), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaHombroIzquierdo.Draw(lightingShader);
+		//glm::mat4 modelHombroIzq_Final = model;
+
+		//// ANTEBRAZO IZQUIERDO
+		//model = modelHombroIzq_Final;
+		//// 2. TRASLADA del hombro al codo (aplica longitud del brazo con offset)
+		//model = glm::translate(model, OFFSET_BRAZO_A_ANTEBRAZO_IZQ);
+		//model = glm::rotate(model, glm::radians(angAntebrazoIzq), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaAntebrazoIzquierdo.Draw(lightingShader);
+		//glm::mat4 modelAntebrazoIzq_Final = model;
+
+		//// MANO IZQUIERDA
+		//model = modelAntebrazoIzq_Final;
+		//// 3. TRASLADA del codo a la muñeca (aplica longitud del antebrazo con offset)
+		//model = glm::translate(model, OFFSET_ANTEBRAZO_A_MANO_IZQ);
+		//model = glm::rotate(model, glm::radians(angManoIzq), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaManoIzquierda.Draw(lightingShader);
+
+
+		//// =================================================================
+		////                         PIERNAS (Usando la nueva base)
+		//// =================================================================
+		//// PIERNA DERECHA (Muslo)
+		//model = recepBaseModel;
+		//model = glm::rotate(model, glm::radians(angPiernaDer), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaPiernaDerecha.Draw(lightingShader);
+		//glm::mat4 modelPiernaDer_Final = model;
+
+		//// TIBIA DERECHA
+		//model = modelPiernaDer_Final;
+		//// [FALTA TRASLACIÓN DE CADERA A RODILLA SI ES NECESARIO]
+		//model = glm::rotate(model, glm::radians(angTibiaDer), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaTibiaDerecha.Draw(lightingShader);
+		//glm::mat4 modelTibiaDer_Final = model;
+
+		//// PIE DERECHO
+		//model = modelTibiaDer_Final;
+		//// [FALTA TRASLACIÓN DE RODILLA A TOBILLO SI ES NECESARIO]
+		//model = glm::rotate(model, glm::radians(angPieDer), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaPieDerecho.Draw(lightingShader);
+
+
+		//// PIERNA IZQUIERDA (Muslo)
+		//model = recepBaseModel;
+		//model = glm::rotate(model, glm::radians(angPiernaIzq), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaPiernaIzquierda.Draw(lightingShader);
+		//glm::mat4 modelPiernaIzq_Final = model;
+
+		//// TIBIA IZQUIERDA
+		//model = modelPiernaIzq_Final;
+		//// [FALTA TRASLACIÓN DE CADERA A RODILLA SI ES NECESARIO]
+		//model = glm::rotate(model, glm::radians(angTibiaIzq), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaTibiaIzquierda.Draw(lightingShader);
+		//glm::mat4 modelTibiaIzq_Final = model;
+
+		//// PIE IZQUIERDO
+		//model = modelTibiaIzq_Final;
+		//// [FALTA TRASLACIÓN DE RODILLA A TOBILLO SI ES NECESARIO]
+		//model = glm::rotate(model, glm::radians(angPieIzq), glm::vec3(1, 0, 0));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//RecepcionistaPieIzquierdo.Draw(lightingShader);
 
 		
 
@@ -1367,8 +1510,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	if (keys[GLFW_KEY_R])
 	{
 		AnimRecep = true;
-		recepState = 0;
-		recepWalkDist = 0.0f;
+		//recepState = 0;
+		//recepWalkDist = 0.0f;
 	}
 
 
@@ -1516,127 +1659,220 @@ void Animation()
 
 	}
 
-	// ---------- ANIMACIÓN DE LA RECEPCIONISTA ----------
-	if (AnimRecep)
-	{
-		switch (recepState)
-		{
-			// 1. Giro hacia la izquierda 135°
+	// --- ANIMACIÓN DE LA RECEPCIONISTA CON RANGOS Y MÁQUINA DE ESTADOS ---
+	if (AnimRecep) {
+		// Variables comunes a todos los estados
+		const float turnSpeed = 150.0f;  // grados por segundo
+		const float moveSpeed = 0.5f;  // velocidad de movimiento
+		const float limitXMin = -140.0f;
+		const float limitXMax = -40.0f;
+		const float limitZMin = 0.0f;
+		const float limitZMax = 45.0f;
+
+		float targetRot = 0.0f;
+
+		switch (recepState) {
+			// Estado 0: Rotar en el lugar
 		case 0:
-			recepRot += 1.0f;
-			if (recepRot >= 135.0f) {
-				recepRot = 135.0f;
-				recepWalkDist = 0.0f;
-				recepState = 1;
+			targetRot = 135.0f;  // Girar a 135 grados desde donde está
+
+			// Realizar la rotación sin mover la posición
+			if (recepRot < targetRot) {
+				recepRot += turnSpeed * deltaTime;
+				if (recepRot >= targetRot) {
+					recepRot = targetRot; // Clamp para no exceder
+					recepState = 1; // Cambiar a caminar hacia el límite de X
+				}
 			}
 			break;
 
-			// 2. Camina 50 unidades
+			// Estado 1: Caminar hacia X negativo
 		case 1:
-			recepPos.x += sin(glm::radians(recepRot)) * 0.05f;
-			recepPos.z -= cos(glm::radians(recepRot)) * 0.05f;
-			recepWalkDist += 0.05f;
+			// Mover hacia el eje X negativo
+			recepPos.x -= moveSpeed; // Se mueve en X hacia el negativo
 
-			// animación piernas
+			// Alternar animación de piernas
 			if (!stepRecep) {
-				angPiernaDer += 1.0f;
-				angTibiaDer += 1.0f;
-				angPiernaIzq -= 1.0f;
-				angTibiaIzq -= 1.0f;
+				angPiernaDer += 1.0f;  // Mover pierna derecha
+				angTibiaDer += 1.0f;   // Mover tibia derecha
+				angPiernaIzq -= 1.0f;  // Mover pierna izquierda
+				angTibiaIzq -= 1.0f;   // Mover tibia izquierda
 				if (angPiernaDer > 20.0f) stepRecep = true;
 			}
 			else {
-				angPiernaDer -= 1.0f;
-				angTibiaDer -= 1.0f;
-				angPiernaIzq += 1.0f;
-				angTibiaIzq += 1.0f;
+				angPiernaDer -= 1.0f;  // Mover pierna derecha
+				angTibiaDer -= 1.0f;   // Mover tibia derecha
+				angPiernaIzq += 1.0f;  // Mover pierna izquierda
+				angTibiaIzq += 1.0f;   // Mover tibia izquierda
 				if (angPiernaDer < -20.0f) stepRecep = false;
 			}
 
-			if (recepWalkDist >= 50.0f) {
-				recepWalkDist = 0.0f;
-				recepState = 2;
+			// Verificar si se ha llegado al límite de X
+			if (recepPos.x <= limitXMin) {
+				recepState = 2; // Cambiar a girar a la derecha
 			}
 			break;
 
-			// 3. Giro 90° a la derecha
+			// Estado 2: Girar 90° a la derecha
 		case 2:
-			recepRot -= 1.0f;
-			if (recepRot <= 45.0f) { // 135 - 90 = 45
-				recepRot = 45.0f;
-				recepWalkDist = 0.0f;
-				recepState = 3;
+			targetRot = 45.0f; // Girar 90° a la derecha
+
+			if (recepRot > targetRot) {
+				// Realizar el giro de 90°
+				recepRot -= turnSpeed * deltaTime;
+				if (recepRot <= targetRot) {
+					recepRot = targetRot; // Asegurarse de que no se pase de 90° de rotación
+					recepState = 3; // Cambiar al siguiente estado para caminar en el eje Z
+				}
 			}
 			break;
 
-			// 4. Camina 40 unidades
+			// Estado 3: Caminar hacia Z negativo
 		case 3:
-			recepPos.x += sin(glm::radians(recepRot)) * 0.05f;
-			recepPos.z -= cos(glm::radians(recepRot)) * 0.05f;
-			recepWalkDist += 0.05f;
+			// Mover hacia el eje Z negativo
+			recepPos.z -= moveSpeed; // Se mueve en Z hacia el negativo
 
+			// Alternar animación de piernas
 			if (!stepRecep) {
-				angPiernaDer += 1.0f;
-				angTibiaDer += 1.0f;
-				angPiernaIzq -= 1.0f;
-				angTibiaIzq -= 1.0f;
+				angPiernaDer += 1.0f;  // Mover pierna derecha
+				angTibiaDer += 1.0f;   // Mover tibia derecha
+				angPiernaIzq -= 1.0f;  // Mover pierna izquierda
+				angTibiaIzq -= 1.0f;   // Mover tibia izquierda
 				if (angPiernaDer > 20.0f) stepRecep = true;
 			}
 			else {
-				angPiernaDer -= 1.0f;
-				angTibiaDer -= 1.0f;
-				angPiernaIzq += 1.0f;
-				angTibiaIzq += 1.0f;
+				angPiernaDer -= 1.0f;  // Mover pierna derecha
+				angTibiaDer -= 1.0f;   // Mover tibia derecha
+				angPiernaIzq += 1.0f;  // Mover pierna izquierda
+				angTibiaIzq += 1.0f;   // Mover tibia izquierda
 				if (angPiernaDer < -20.0f) stepRecep = false;
 			}
 
-			if (recepWalkDist >= 40.0f) {
-				recepWalkDist = 0.0f;
-				recepState = 4;
+			// Verificar si se ha llegado al límite de Z
+			if (recepPos.z <= limitZMin) {
+				recepState = 4; // Cambiar a girar a la derecha
 			}
 			break;
 
-			// 5. Giro 90° derecha otra vez
+			// Estado 4: Girar 90° a la derecha
 		case 4:
-			recepRot -= 1.0f;
-			if (recepRot <= -45.0f) {  // 45 - 90 = -45
-				recepRot = -45.0f;
-				recepWalkDist = 0.0f;
-				recepState = 5;
+			// Ahora, proceder con el giro de 90° a la derecha
+			targetRot = -45.0f; // Girar 90° a la derecha desde 45° (esto lleva a -45°)
+
+			if (recepRot > targetRot) {
+				// Realizar el giro de 90°
+				recepRot -= turnSpeed * deltaTime;
+				if (recepRot <= targetRot) {
+					recepRot = targetRot; // Asegurarse de que no se pase de 90° de rotación
+					recepState = 5; // Cambiar al siguiente estado para caminar en el eje X positivo
+				}
 			}
 			break;
 
-			// 6. Camina 150 unidades
+			// Estado 5: Caminar hacia X positivo
 		case 5:
-			recepPos.x += sin(glm::radians(recepRot)) * 0.05f;
-			recepPos.z -= cos(glm::radians(recepRot)) * 0.05f;
-			recepWalkDist += 0.05f;
+			// Mover hacia el eje X positivo
+			recepPos.x += moveSpeed; // Se mueve en X hacia el positivo
 
+			// Alternar animación de piernas
 			if (!stepRecep) {
-				angPiernaDer += 1.0f;
-				angTibiaDer += 1.0f;
-				angPiernaIzq -= 1.0f;
-				angTibiaIzq -= 1.0f;
+				angPiernaDer += 1.0f;  // Mover pierna derecha
+				angTibiaDer += 1.0f;   // Mover tibia derecha
+				angPiernaIzq -= 1.0f;  // Mover pierna izquierda
+				angTibiaIzq -= 1.0f;   // Mover tibia izquierda
 				if (angPiernaDer > 20.0f) stepRecep = true;
 			}
 			else {
-				angPiernaDer -= 1.0f;
-				angTibiaDer -= 1.0f;
-				angPiernaIzq += 1.0f;
-				angTibiaIzq += 1.0f;
+				angPiernaDer -= 1.0f;  // Mover pierna derecha
+				angTibiaDer -= 1.0f;   // Mover tibia derecha
+				angPiernaIzq += 1.0f;  // Mover pierna izquierda
+				angTibiaIzq += 1.0f;   // Mover tibia izquierda
 				if (angPiernaDer < -20.0f) stepRecep = false;
 			}
 
-			if (recepWalkDist >= 150.0f) {
-				recepState = 6; // Termina
+			// Verificar si se ha llegado al límite de X
+			if (recepPos.x >= limitXMax) {
+				recepState = 6; // Terminar la animación o reiniciar
 			}
 			break;
 
-			// Animación terminada
+			// Estado 6: Fin de la animación o reinicio
 		case 6:
+			// Asegurarnos de que la rotación y el movimiento estén detenidos
+			recepRot = -45.0f;  // Fijar la rotación (puede ajustarse si es necesario)
+	//		// Rotación del Antebrazo (levanta la mano)
+	//		if (angAntebrazoDer < 45.0f) { // Objetivo: 45 grados de flexión del codo
+	//			angAntebrazoDer += 100.0f * deltaTime;
+	//		}
+	//		else {
+	//			angAntebrazoDer = 45.0f;
+	//			recepState = 7; // Pasa a la Fase 2: Mover solo la Mano
+	//		}
+
+			// El ángulo de la mano se mantiene constante respecto al antebrazo por ahora
+			angManoDer = 0.0f;
+
+			// Resto del cuerpo en posición neutra
+			angPiernaDer = 0.0f;
+			angPiernaIzq = 0.0f;
+			angTibiaDer = 0.0f;
+			angTibiaIzq = 0.0f;
+			// Los pies se mantienen en su posición neutra, no hay movimiento
+			angPieDer = 0.0f;  // Pie derecho neutro
+			angPieIzq = 0.0f;  // Pie izquierdo neutro
+
+			// Poner los otros elementos del cuerpo en sus posiciones neutras (no se mueven)
+			angPiernaDer = 0.0f;
+			angPiernaIzq = 0.0f;
+			angTibiaDer = 0.0f;
+			angTibiaIzq = 0.0f;
+			angCabeza = 0.0f;  // Si no quieres mover la cabeza
+			angHombroDer = 0.0f; // Si no quieres mover el hombro derecho
+			angHombroIzq = 0.0f; // Si no quieres mover el hombro izquierdo
+			angAntebrazoIzq = 0.0f; // Si no quieres mover el antebrazo izquierdo
+			angAntebrazoDer = 0.0f; // Si no quieres mover el antebrazo derecho
+			break;
+	//		// Estado 7: Mover solo la Mano (Fase 2 del saludo)
+	//	case 7:
+	//		// El Antebrazo se mantiene en 45 grados
+	//		angAntebrazoDer = 45.0f;
+
+	//		// La Mano rota para el saludo
+	//		if (angManoDer < 45.0f) { // Objetivo: 45 grados de rotación de la mano
+	//			angManoDer += 100.0f * deltaTime;
+	//		}
+	//		else {
+	//			angManoDer = 45.0f;
+	//			// Opcional: pasar a un estado de 'espera' para mantener la pose.
+	//			recepState = 8;
+	//		}
+
+	//		// Resto del cuerpo en posición neutra
+	//		angPiernaDer = 0.0f;
+	//		angPiernaIzq = 0.0f;
+	//		angTibiaDer = 0.0f;
+	//		angTibiaIzq = 0.0f;
+	//		break;
+
+	//		// Estado 8: Saludo Final / Pose de Espera
+	//	case 8:
+	//		// Mantener la pose final del saludo
+	//		angAntebrazoDer = 45.0f;
+	//		angManoDer = 45.0f;
+	//		break;
+
+		default:
 			break;
 		}
 	}
+
+
+
+
+
+
+
+
 
 	//animacion de las monedas subida y bajada
 	if (coinAnim) {
