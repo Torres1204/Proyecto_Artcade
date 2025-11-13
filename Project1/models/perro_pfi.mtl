@@ -1,13 +1,18 @@
-# Blender 4.5.4 LTS MTL File: 'PerroCort2.blend'
+# Blender 4.5.4 LTS MTL File: 'None'
 # www.blender.org
 
-newmtl Australian_Cattle_Dog
-Ns 10.000005
-Ka 1.000000 1.000000 1.000000
+newmtl Australian_Cattle_Dog.011
 Ks 0.180000 0.180000 0.180000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
+Pr 0.900000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
 map_Kd Australian_Cattle_Dog_dif.jpg
 map_Bump Australian_Cattle_Dog_bump.jpg
