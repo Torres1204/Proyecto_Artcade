@@ -26,6 +26,11 @@
 #include "Model.h"
 #include "Texture.h"
 
+// --- NUEVO AUDIO (NATIVO DE WINDOWS) ---
+#include <Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib") // Linkea la librería automáticamente
+
 // Function prototypes
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
@@ -756,6 +761,14 @@ int main()
 	// Calcula numLights a partir del vector despu�s de que ha sido llenado
 	const int numLights = pointLightPositions.size();
 
+	// --- REPRODUCIR MÚSICA CON WINMM ---
+	// 1. Abrimos el archivo mp3 y le damos el alias "fondo"
+	// Asegúrate de que la ruta "audio/musica_fondo.mp3" sea correcta o usa ruta absoluta si falla
+	mciSendString(L"open \"audio/Jazz.mp3\" type mpegvideo alias fondo", NULL, 0, NULL);
+
+	// 2. Lo reproducimos en modo "repeat" (bucle infinito)
+	mciSendString(L"play fondo repeat", NULL, 0, NULL);
+
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -764,6 +777,20 @@ int main()
 		GLfloat currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+
+		// --- LÓGICA DE LUCES RÍTMICAS ---
+		// 1. Obtenemos el tiempo actual
+		float time = glfwGetTime();
+
+		// 2. Creamos un "Pulso" usando la función seno (sin).
+		// Multiplicar 'time' por un número cambia la velocidad (BPM). 
+		// * 10.0f es rápido (tipo música electrónica), * 3.0f es lento.
+		// abs() asegura que el valor sea siempre positivo (0 a 1).
+		float musicPulse = abs(sin(time * 9.21f));
+
+		// 3. Opcional: Hacemos que el pulso no baje hasta 0 (negro total), 
+		// sino que oscile entre 0.3 (luz tenue) y 1.0 (luz fuerte).
+		float lightIntensity = 0.3f + (musicPulse * 0.7f);
 
 		// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 		glfwPollEvents();
@@ -823,19 +850,22 @@ int main()
 				currentDiffuseColor = diffuseColors[pairIndex % numColors];
 			}
 			
+			// --- AQUÍ ESTÁ EL CAMBIO ---
+		// Multiplicamos el color base por la intensidad del "ritmo"
+			glm::vec3 pulsingColor = currentDiffuseColor * lightIntensity;
 
 			// Dar la posicion de la luz y sus configuraciones
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".position").c_str()),
 				pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z);
 
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".ambient").c_str()),
-				currentDiffuseColor.x * 0.05f, currentDiffuseColor.y * 0.05f, currentDiffuseColor.z * 0.05f);
+				pulsingColor.x * 0.05f, pulsingColor.y * 0.05f, pulsingColor.z * 0.05f);
 
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".diffuse").c_str()),
-				currentDiffuseColor.x, currentDiffuseColor.y, currentDiffuseColor.z);
+				pulsingColor.x, pulsingColor.y, pulsingColor.z);
 
 			glUniform3f(glGetUniformLocation(lightingShader.Program, (base + ".specular").c_str()),
-				currentDiffuseColor.x * 0.5f, currentDiffuseColor.y * 0.5f, currentDiffuseColor.z * 0.5f);
+				pulsingColor.x * 0.5f, pulsingColor.y * 0.5f, pulsingColor.z * 0.5f);
 
 			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".constant").c_str()), 1.0f);
 			glUniform1f(glGetUniformLocation(lightingShader.Program, (base + ".linear").c_str()), 0.09f);
@@ -1216,7 +1246,8 @@ int main()
 	// Terminate GLFW, clearing any resources allocated by GLFW.
 	glfwTerminate();
 
-
+	// CERRAR MÚSICA
+	mciSendString(L"close fondo", NULL, 0, NULL);
 
 	return 0;
 }
