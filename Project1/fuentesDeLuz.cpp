@@ -453,6 +453,28 @@ int recepState = 0;        // estado de la animación
 float recepWalkDist = 0.0f;
 bool stepRecep = false;    // para animación de piernas
 
+/*
+* Variables para la animacion del pajaro
+* rotBird  : Rotación del pajaro (0-360°)
+  • DWing  : Ala Derecha
+  • IWing  : Ala Izquierda
+  • body    : Rotación del cuerpo
+  • tail    : Rotación de la cola
+*/
+bool AnimBird = false;
+float RWing = 0.0f;
+float LWing = 0.0f;
+float bodyPa = 0.0f;
+float tailPa = 0.0f;
+
+// Variables de posición y rotación 
+glm::vec3 birdPos(0.0f, 100.0f, 10.0f);  // Posición del pájaro
+float birdRot = 180.0f;                  
+int birdStage = 0;                       
+bool wingFlap = false;
+float targetRot = 180.0f;                
+bool isRotating = false;                 
+float rotSpeed = 5.0f;
 
 int main()
 {
@@ -505,9 +527,6 @@ int main()
 
 	// Define the viewport dimensions
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-
-
 
 
 	Shader lightingShader("Shader/lighting.vs", "Shader/lighting.frag");
@@ -650,6 +669,12 @@ int main()
 		KeyFrame[i].tail = 0;
 		KeyFrame[i].tailInc = 0;
 	}
+
+	//Modelos de Pajaro
+	Model BirdBody((char*)"models/cuerpo_pajaro.obj");
+	Model BirdTail((char*)"models/cola_pajaro.obj");
+	Model R_Wing((char*)"models/ala_derecha.obj");
+	Model L_Wing((char*)"models/ala_izquierda.obj");
 
 	// First, set the container's VAO (and VBO)
 	GLuint VBO, VAO, EBO;
@@ -1174,6 +1199,45 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		B_RightLeg.Draw(lightingShader);
 
+		
+		//Dibujo del modelo del pajaro
+		model = glm::mat4(1);
+
+		// Aplicar transformaciones base del pájaro 
+		model = glm::translate(model, birdPos);  
+		model = glm::rotate(model, glm::radians(birdRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.913f, 3.095f, 3.159f));
+
+		// GUARDAR modelTemp DESPUÉS de aplicar escala
+		modelTemp = model;
+
+		//Body
+		model = modelTemp;
+		model = glm::rotate(model, glm::radians(bodyPa), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BirdBody.Draw(lightingShader);
+
+		//Tail 
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(tailPa), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		BirdTail.Draw(lightingShader);
+
+		//Left Wing
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-LWing), glm::vec3(0.0f, 1.0f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		L_Wing.Draw(lightingShader);
+
+		//Right Wing
+		model = modelTemp;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(RWing), glm::vec3(0.0f, 1.0f, 0.0f)); 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		R_Wing.Draw(lightingShader);
+
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
 
@@ -1422,6 +1486,21 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		animationDirectionCoins = -1;
 	}
 
+	if (keys[GLFW_KEY_B])
+	{
+		AnimBird = !AnimBird;
+		if (AnimBird) {
+			std::cout << "\n===========================================" << std::endl;
+			std::cout << "  ANIMACION DEL PAJARO ACTIVADA (Tecla B)" << std::endl;
+			std::cout << "===========================================" << std::endl;
+		}
+		else {
+			std::cout << "\n===========================================" << std::endl;
+			std::cout << "  ANIMACION DEL PAJARO DESACTIVADA" << std::endl;
+			std::cout << "===========================================" << std::endl;
+		}
+	}
+
 	if (keys[GLFW_KEY_P])
 	{
 		std::cout << "\n******************************************" << std::endl;
@@ -1546,6 +1625,96 @@ void Animation()
 			i_curr_steps++;
 		}
 
+	}
+
+	// ANIMACIÓN DEL PÁJARO 
+	if (AnimBird) {
+
+		float birdMoveSpeed = 0.3f;  // Velocidad de desplazamiento
+
+		
+		switch (birdStage) {
+
+		case 0:  // AVANZAR en Z hasta -124 (IDA)
+			birdPos.z -= birdMoveSpeed;
+			if (birdPos.z <= -124.0f) {
+				birdPos.z = -124.0f;  
+				targetRot = 0.0f;     // Preparar rotación a 0°
+				isRotating = true;
+				birdStage = 1;
+			}
+			break;
+
+		case 1:  // ROTAR a 0° (girar 180°)
+			if (isRotating) {
+				// Interpolar rotación de 180° a 0°
+				float diff = targetRot - birdRot;
+
+				// Asegurar que gire por el camino más corto
+				if (diff < -180.0f) diff += 360.0f;
+				if (diff > 180.0f) diff -= 360.0f;
+
+				if (fabs(diff) > 0.5f) {
+					birdRot += (diff > 0 ? rotSpeed : -rotSpeed);
+				}
+				else {
+					birdRot = targetRot;
+					isRotating = false;
+					birdStage = 2;
+				}
+			}
+			break;
+
+		case 2:  // REGRESAR en Z hasta 10 (VUELTA)
+			birdPos.z += birdMoveSpeed;
+			if (birdPos.z >= 10.0f) {
+				birdPos.z = 10.0f;    // Resetear posición Z inicial
+				targetRot = 180.0f;   // Preparar rotación a 180°
+				isRotating = true;
+				birdStage = 3;
+			}
+			break;
+
+		case 3:  // ROTAR a 180° (girar 180° de nuevo)
+			if (isRotating) {
+				// Interpolar rotación de 0° a 180°
+				float diff = targetRot - birdRot;
+
+				// Asegurar que gire por el camino más corto
+				if (diff < -180.0f) diff += 360.0f;
+				if (diff > 180.0f) diff -= 360.0f;
+
+				if (fabs(diff) > 0.5f) {
+					birdRot += (diff > 0 ? rotSpeed : -rotSpeed);
+				}
+				else {
+					birdRot = targetRot;
+					isRotating = false;
+					birdStage = 0;  // Reiniciar ciclo
+				}
+			}
+			break;
+		}
+
+		// Animación de batir alas (ciclo continuo arriba-abajo)
+		float wingSpeed = 3.0f;  // Velocidad del batir
+
+		if (!wingFlap) {
+			RWing += wingSpeed;
+			LWing += wingSpeed;
+			if (RWing > 45.0f) wingFlap = true;  // Amplitud del batir (arriba)
+		}
+		else {
+			RWing -= wingSpeed;
+			LWing -= wingSpeed;
+			if (RWing < -45.0f) wingFlap = false;  // Amplitud del batir (abajo)
+		}
+
+		// Animación del cuerpo (movimiento ondulante)
+		bodyPa = sin(glfwGetTime() * 3.0f) * 5.0f;
+
+		// Animación de la cola
+		tailPa = sin(glfwGetTime() * 2.0f) * 10.0f;
 	}
 
 	// --- ANIMACIÓN DE LA RECEPCIONISTA CON RANGOS Y MÁQUINA DE ESTADOS ---
@@ -1754,14 +1923,6 @@ void Animation()
 			break;
 		}
 	}
-
-
-
-
-
-
-
-
 
 	//animacion de las monedas subida y bajada
 	if (coinAnim) {
