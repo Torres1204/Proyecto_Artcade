@@ -1,0 +1,47 @@
+# Blender 5.0.0 MTL File: 'None'
+# www.blender.org
+
+newmtl cuerpo_pajaro
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Fabric082C_4K-PNG_Color.png
+map_Pr Fabric082C_4K-PNG_Roughness.png
+
+newmtl ojos_pajaro
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Metal028_4K-PNG_Color.png
+map_Pm Metal028_4K-PNG_Metalness.png
+map_Pr Metal028_4K-PNG_Roughness.png
+
+newmtl pico_pajaro
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Plastic016B_4K-PNG_Color.png
+map_Pr Plastic016B_4K-PNG_Roughness.png
